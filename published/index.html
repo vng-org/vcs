@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- CATEGORY: METADATA & EXTERNAL RESOURCES -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Citizen Services | Marketplace</title>
+    
+    <style>
+        /* CATEGORY: CORE STYLES & VARIABLES */
+        :root {
+            --bg-obsidian: #0D0D0D;
+            --bg-card: #141414;
+            --gold-bright: #D4AF37;
+            --gold-muted: #AA8C2C;
+            --text-main: #FFFFFF;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-obsidian);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        .section-block { padding: 5rem 0; }
+        .section-header { text-align: center; margin-bottom: 3.5rem; padding-top: 2rem; }
+        .section-header h2 { font-size: 1.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 0.5rem; }
+        .section-header p { color: var(--text-main); font-size: 0.95rem; }
+
+        /* CATEGORY: ANIMATION EFFECTS */
+        .reveal { opacity: 0; transform: translateY(15px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* CATEGORY: NAVIGATION INTERFACE */
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(20, 20, 20, 0.95); border-top: 1px solid var(--gold-muted); backdrop-filter: blur(10px); z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-around; align-items: center; height: 65px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-main); text-transform: uppercase; transition: color 0.3s ease; }
+        .nav-link:hover { color: var(--gold-bright); }
+
+        /* CATEGORY: MARKETPLACE GRID ARCHITECTURE */
+        .marketplace-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 4rem; }
+        .product-card { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; border-radius: 4px; display: flex; flex-direction: column; justify-content: space-between; transition: border-color 0.4s ease; }
+        .product-card:hover { border-color: var(--gold-muted); }
+        
+        .product-meta { margin-bottom: 2rem; }
+        .product-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--gold-bright); margin-bottom: 0.5rem; display: inline-block; }
+        .product-title { font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem; }
+        .product-author { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 1rem; }
+        .product-description { color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
+
+        /* CATEGORY: BUTTONS & INPUT ELEMENTS */
+        .btn-gold { display: inline-block; background-color: transparent; border: 1px solid var(--gold-bright); color: var(--gold-bright); padding: 0.75rem 1.5rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; transition: background-color 0.3s ease, color 0.3s ease; cursor: pointer; width: 100%; }
+        .btn-gold:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
+
+        footer { text-align: center; padding: 4rem 1.5rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+        /* CATEGORY: RESPONSIVE BREAKPOINTS */
+        @media (min-width: 768px) {
+            body { padding-bottom: 0; }
+            .nav-bar { top: 0; bottom: auto; border-top: none; border-bottom: 1px solid #1a1a1a; }
+            .nav-container { justify-content: flex-end; gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+            .section-block { padding: 8rem 0 5rem 0; }
+            .marketplace-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+            .btn-gold { width: auto; align-self: flex-start; }
+        }
+        @media (min-width: 1024px) { .marketplace-grid { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+
+    <!-- CATEGORY: NAVIGATION BAR -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="../index.html#home" class="nav-link">Home</a>
+            <a href="../index.html#roster" class="nav-link">Roster</a>
+            <a href="../index.html#published" class="nav-link">Published Works</a>
+            <a href="../index.html#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <!-- CATEGORY: MAIN MARKETPLACE ENVIRONMENT -->
+    <main class="container">
+        <section class="section-block">
+            
+            <div class="section-header">
+                <h2>The Marketplace</h2>
+                <p>Acquire field manuals, structural blueprints, and strategic literature crafted by the studio.</p>
+            </div>
+
+            <!-- CATEGORY: PRODUCTS SYSTEM GRID -->
+            <div class="marketplace-grid">
+                
+                <!-- PRODUCT UNIT: ORDO MINDSET -->
+                <div class="product-card reveal active">
+                    <div class="product-meta">
+                        <span class="product-tag">[ Available Now ]</span>
+                        <h3 class="product-title">The Ordo Mindset Collection</h3>
+                        <p class="product-author">Written by Quincy Jones</p>
+                        <p class="product-description">A straightforward field guide built around getting out of your own head and straight into execution. No fluffy theories—just real strategies on setting up a baseline daily rhythm that forces momentum to take care of itself.</p>
+                    </div>
+                    <a href="https://qkommand.com/ordo" target="_blank" class="btn-gold">Access Blueprint</a>
+                </div>
+
+                <!-- PRODUCT UNIT: FUTURE EXPANSION SLOT 1 -->
+                <!-- 
+                <div class="product-card reveal">
+                    <div class="product-meta">
+                        <span class="product-tag">[ Deployment Pending ]</span>
+                        <h3 class="product-title">Next Alpha Transmission</h3>
+                        <p class="product-author">Vanguard Collective</p>
+                        <p class="product-description">Future strategic brief or narrative asset deployment package currently processing structural alignment clearance.</p>
+                    </div>
+                    <button class="btn-gold" disabled>Locked</button>
+                </div> 
+                -->
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        &copy; 2026 Vanguard Citizen Services
+    </footer>
+
+    <!-- CATEGORY: RUNTIME MOTIONS -->
+    <script>
+        const UIConfig = { scroll_tracking: 'on' };
+
+        if (UIConfig.scroll_tracking === 'on') {
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        }
+    </script>
+</body>
+</html>
