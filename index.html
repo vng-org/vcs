@@ -5,27 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanguard Citizen Services</title>
     
-    <!-- --- OPEN GRAPH META TAGS --- -->
+    <!-- META -->
     <meta property="og:title" content="Vanguard Citizen Services">
     <meta property="og:description" content="We construct the narratives that shape human behavior. Our objective is positive coexistence.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="vcslogo.png">
 
-    <!-- --- DATABASE CLIENT DEPENDENCY --- -->
+    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        /* --- CORE CONFIGURATION --- */
+        /* VARIABLES */
         :root {
             --bg-obsidian: #0D0D0D;
             --bg-card: #141414;
             --gold-bright: #D4AF37;
             --gold-muted: #AA8C2C;
-            --text-light: #FFFFFF; /* Shifted to stark white */
-            --text-dark: #FFFFFF;  /* Grey text neutralized to white per request */
+            --text-main: #FFFFFF;
             --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
+        /* BASE */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -34,7 +34,7 @@
 
         body {
             background-color: var(--bg-obsidian);
-            color: var(--text-light);
+            color: var(--text-main);
             font-family: var(--font-main);
             line-height: 1.6;
             overflow-x: hidden;
@@ -46,7 +46,7 @@
             text-decoration: none;
         }
 
-        /* --- SCREEN SIZE LAYOUT ENGINE --- */
+        /* LAYOUT */
         .container {
             width: 100%;
             max-width: 1200px;
@@ -54,7 +54,30 @@
             padding: 0 1.5rem;
         }
 
-        /* --- ANIMATION FRAMEWORKS --- */
+        .section-block {
+            padding: 5rem 0;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-bright);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        /* ANIMATIONS */
         .reveal {
             opacity: 0;
             transform: translateY(15px);
@@ -66,7 +89,7 @@
             transform: translateY(0);
         }
 
-        /* --- NAVIGATION STYLES --- */
+        /* NAVIGATION */
         .nav-bar {
             position: fixed;
             bottom: 0;
@@ -89,7 +112,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.05em;
-            color: var(--text-dark);
+            color: var(--text-main);
             text-transform: uppercase;
             transition: color 0.3s ease;
         }
@@ -98,7 +121,7 @@
             color: var(--gold-bright);
         }
 
-        /* --- HERO & ORIGINS STYLES --- */
+        /* HERO */
         .hero {
             min-height: 85vh;
             display: flex;
@@ -125,7 +148,7 @@
         .origins-text {
             max-width: 680px;
             font-size: 1.05rem;
-            color: var(--text-dark);
+            color: var(--text-main);
             margin-bottom: 3rem;
         }
 
@@ -148,34 +171,11 @@
         .mission-statement {
             font-size: 1.35rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-main);
             line-height: 1.4;
         }
 
-        /* --- CARD GRID ENGINE --- */
-        .section-block {
-            padding: 5rem 0;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
-
-        .section-header h2 {
-            font-size: 1.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gold-bright);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-header p {
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
+        /* ROSTER */
         .roster-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -201,7 +201,7 @@
         .knight-name {
             font-size: 1.25rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-main);
         }
 
         .knight-role {
@@ -213,7 +213,7 @@
         }
 
         .knight-bio {
-            color: var(--text-dark);
+            color: var(--text-main);
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
         }
@@ -237,7 +237,13 @@
             color: var(--bg-obsidian);
         }
 
-        /* --- FORM STRUCTURE STYLES --- */
+        .btn-gold:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* FORMS */
         .form-layout {
             max-width: 600px;
             margin: 0 auto;
@@ -255,7 +261,7 @@
             font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--text-dark);
+            color: var(--text-main);
             margin-bottom: 0.5rem;
         }
 
@@ -263,7 +269,7 @@
             width: 100%;
             background-color: var(--bg-obsidian);
             border: 1px solid #222222;
-            color: var(--text-light);
+            color: var(--text-main);
             padding: 0.8rem;
             font-family: var(--font-main);
             font-size: 0.95rem;
@@ -275,48 +281,19 @@
             border-color: var(--gold-bright);
         }
 
-        .form-control:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            background-color: #050505;
-        }
-
         textarea.form-control {
             resize: vertical;
             min-height: 120px;
         }
 
-        /* --- CHECKBOX TOGGLE STYLE --- */
-        .checkbox-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 0.75rem;
-        }
-        
-        .checkbox-wrapper input[type="checkbox"] {
-            accent-color: var(--gold-bright);
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-
-        .checkbox-wrapper label {
-            margin-bottom: 0;
-            font-size: 0.85rem;
-            text-transform: none;
-            letter-spacing: normal;
-            cursor: pointer;
-        }
-
-        /* --- TOAST NOTIFICATION SYSTEM --- */
+        /* TOAST */
         .system-toast {
             position: fixed;
             bottom: -100px;
             right: 20px;
             background-color: var(--bg-obsidian);
             border: 1px solid var(--gold-bright);
-            color: var(--text-light);
+            color: var(--text-main);
             padding: 1rem 1.5rem;
             border-radius: 4px;
             z-index: 2000;
@@ -332,7 +309,7 @@
         }
 
         .system-toast.show {
-            bottom: 90px; /* Sits cleanly above mobile nav */
+            bottom: 90px;
         }
 
         .toast-indicator {
@@ -343,7 +320,7 @@
             border-radius: 50%;
         }
 
-        /* --- DESKTOP DISPLAY UPGRADES --- */
+        /* MEDIA QUERIES */
         @media (min-width: 768px) {
             body {
                 padding-bottom: 0;
@@ -374,14 +351,20 @@
             }
 
             .system-toast.show {
-                bottom: 30px; /* Relocated down for desktop viewing */
+                bottom: 30px;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .roster-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- --- CORE INTERFACE NAVIGATION --- -->
+    <!-- NAVIGATION -->
     <nav class="nav-bar">
         <div class="nav-container">
             <a href="#home" class="nav-link active">Home</a>
@@ -391,16 +374,15 @@
         </div>
     </nav>
 
-    <!-- --- SYSTEM TOAST MODULE --- -->
+    <!-- TOAST -->
     <div id="system-toast" class="system-toast">
         <span class="toast-indicator"></span>
-        <span id="toast-message">Transmission Secured.</span>
+        <span id="toast-message"></span>
     </div>
 
-    <!-- --- MAIN ENGINE PORTAL --- -->
     <main class="container" id="home">
         
-        <!-- --- PRIMARY HERO ZONE --- -->
+        <!-- HERO -->
         <section class="hero">
             <div class="logo-wrapper">
                 <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
@@ -414,7 +396,7 @@
             </div>
         </section>
 
-        <!-- --- THE COLLECTIVE ROSTER --- -->
+        <!-- ROSTER -->
         <section class="section-block reveal" id="roster">
             <div class="section-header">
                 <h2>The Roster of Knights</h2>
@@ -422,7 +404,6 @@
             </div>
             <div class="roster-grid">
                 
-                <!-- --- KNIGHT 01: CHIEF VISION OFFICER --- -->
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Quincy Jones</h3>
@@ -432,20 +413,19 @@
                     <a href="https://qkommand.com" target="_blank" class="btn-gold">Access Command Post</a>
                 </div>
 
-                <!-- --- KNIGHT 02: CHIEF OPERATIONS OFFICER --- -->
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Kona Agpalza</h3>
                         <p class="knight-role">Knight-02 // Chief Operations Officer</p>
                     </div>
                     <p class="knight-bio">Commanding the back-end infrastructure, operational defense lines, and internal studio mechanics to guarantee flawless execution under pressure.</p>
-                    <button class="btn-gold" style="opacity: 0.6; cursor: not-allowed;" disabled>Operations Secured</button>
+                    <button class="btn-gold" disabled>Operations Secured</button>
                 </div>
 
             </div>
         </section>
 
-        <!-- --- DISCORD RECRUITMENT INTERFACE --- -->
+        <!-- RECRUITMENT -->
         <section class="section-block reveal" id="join">
             <div class="section-header">
                 <h2>Join the Order</h2>
@@ -466,21 +446,15 @@
                         <input type="text" id="recruit-discipline" class="form-control" required placeholder="Ex. Writer, Developer, Designer">
                     </div>
                     <div class="form-group">
-                        <label for="recruit-portfolio">Portfolio Link / Creative Codex</label>
-                        <input type="url" id="recruit-portfolio" class="form-control" required placeholder="https://">
-                        
-                        <!-- NEW LINK TOGGLE CHECKBOX -->
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" id="no-portfolio-toggle">
-                            <label for="no-portfolio-toggle">I do not have a web link</label>
-                        </div>
+                        <label for="recruit-portfolio">Portfolio Link (Optional)</label>
+                        <input type="url" id="recruit-portfolio" class="form-control" placeholder="https:// (Leave blank if none)">
                     </div>
                     <button type="submit" id="recruit-submit-btn" class="btn-gold">Submit Application</button>
                 </form>
             </div>
         </section>
 
-        <!-- --- CLIENT TRANSMISSION MESSENGER --- -->
+        <!-- CONTACT -->
         <section class="section-block reveal" id="contact">
             <div class="section-header">
                 <h2>Send a Messenger</h2>
@@ -507,9 +481,8 @@
 
     </main>
 
-    <!-- --- RUNTIME FUNCTION LOGIC --- -->
     <script>
-        /* --- CORE CONFIGURATION PROTOCOLS --- */
+        /* CONFIGURATION */
         const UIConfig = {
             scroll_tracking: 'on',
             nav_highlighting: 'on',
@@ -520,86 +493,59 @@
         const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable__Z-lufnCWVAzM6-NjthKiw_KMkLQn-M";
 
-        /* --- TOAST NOTIFICATION LOGIC --- */
+        /* TOAST LOGIC */
         function triggerToast(messageText) {
             if (UIConfig.toast_notifications === 'on') {
                 const toastBox = document.getElementById('system-toast');
                 const toastMsg = document.getElementById('toast-message');
-                
                 toastMsg.innerText = messageText;
                 toastBox.classList.add('show');
-                
                 setTimeout(() => {
                     toastBox.classList.remove('show');
-                }, 4000); // Retracts after 4 seconds
+                }, 4000);
             }
         }
 
-        /* --- RECRUITMENT TOGGLE LOGIC --- */
-        const portfolioToggle = document.getElementById('no-portfolio-toggle');
-        const portfolioInput = document.getElementById('recruit-portfolio');
-
-        if (portfolioToggle && portfolioInput) {
-            portfolioToggle.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    portfolioInput.disabled = true;
-                    portfolioInput.required = false;
-                    portfolioInput.value = '';
-                } else {
-                    portfolioInput.disabled = false;
-                    portfolioInput.required = true;
-                }
-            });
-        }
-
-        /* --- DATABASE TRANSMISSION ENGINE --- */
+        /* DATABASE INTEGRATION */
         if (UIConfig.database_routing === 'on') {
             const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-            // 1. RECRUITMENT TRANSMISSION PROTOCOL
+            /* RECRUITMENT FORM */
             const recruitForm = document.getElementById('recruitment-form');
             const recruitBtn = document.getElementById('recruit-submit-btn');
 
-            if(recruitForm) {
+            if (recruitForm) {
                 recruitForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     recruitBtn.disabled = true;
                     recruitBtn.innerText = "TRANSMITTING...";
 
-                    // Determine if portfolio URL is bypassed
-                    const linkValue = portfolioToggle.checked ? "N/A" : portfolioInput.value;
-
                     const payload = {
                         name: document.getElementById('recruit-name').value,
                         discord_id: document.getElementById('recruit-discord').value,
                         discipline: document.getElementById('recruit-discipline').value,
-                        portfolio: linkValue
+                        portfolio: document.getElementById('recruit-portfolio').value || "N/A"
                     };
 
                     const { error } = await supabaseClient.from('recruits').insert([payload]);
 
                     if (error) {
-                        console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
-                        alert("Transmission failed. Check browser console for details.");
+                        console.error("SUPABASE ERROR:", error.message, error.details);
+                        alert("Transmission failed. Check console.");
                     } else {
                         triggerToast("Application Secured. Awaiting Review.");
                         recruitForm.reset();
-                        
-                        // Reset toggle lock state
-                        portfolioInput.disabled = false;
-                        portfolioInput.required = true;
                     }
-                    
                     recruitBtn.disabled = false;
                     recruitBtn.innerText = "SUBMIT APPLICATION";
                 });
             }
 
-            // 2. CONTACT MESSENGER TRANSMISSION PROTOCOL
+            /* CONTACT FORM */
             const contactForm = document.getElementById('contact-form');
             const contactBtn = document.getElementById('contact-submit-btn');
 
-            if(contactForm) {
+            if (contactForm) {
                 contactForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
                     contactBtn.disabled = true;
@@ -614,57 +560,42 @@
                     const { error } = await supabaseClient.from('contactmessages').insert([payload]);
 
                     if (error) {
-                        console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
-                        alert("Transmission failed. Check browser console for details.");
+                        console.error("SUPABASE ERROR:", error.message, error.details);
+                        alert("Transmission failed. Check console.");
                     } else {
                         triggerToast("Signal Secured. We will contact you.");
                         contactForm.reset();
                     }
-
                     contactBtn.disabled = false;
                     contactBtn.innerText = "TRANSMIT SIGNAL";
                 });
             }
         }
 
-        /* --- SCROLL REVEAL INTERSECTION CONTROLS --- */
+        /* SCROLL REVEAL */
         if (UIConfig.scroll_tracking === 'on') {
-            const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('active');
                 });
-            }, {
-                threshold: 0.1,
-                rootMargin: "0px 0px -50px 0px"
-            });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-            revealElements.forEach(element => {
-                revealObserver.observe(element);
-            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         }
 
-        /* --- ACTIVE NAVIGATION SYNC PROTOCOLS --- */
+        /* NAVIGATION SYNC */
         if (UIConfig.nav_highlighting === 'on') {
             const sections = document.querySelectorAll('main, section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
 
             window.addEventListener('scroll', () => {
-                let currentSection = 'home';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (pageYOffset >= (sectionTop - 200)) {
-                        currentSection = section.getAttribute('id') || 'home';
-                    }
+                let current = 'home';
+                sections.forEach(sec => {
+                    if (pageYOffset >= (sec.offsetTop - 200)) current = sec.getAttribute('id') || 'home';
                 });
-
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentSection}`) {
-                        link.classList.add('active');
-                    }
+                    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
                 });
             });
         }
