@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanguard Citizen Services</title>
+    
+    <!-- --- OPEN GRAPH META TAGS --- -->
+    <meta property="og:title" content="Vanguard Citizen Services">
+    <meta property="og:description" content="We construct the narratives that shape human behavior. Our objective is positive coexistence.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="vcslogo.png">
+
+    <style>
+        /* --- CORE CONFIGURATION --- */
+        :root {
+            --bg-obsidian: #0D0D0D;
+            --bg-card: #141414;
+            --gold-bright: #D4AF37;
+            --gold-muted: #AA8C2C;
+            --text-light: #F5F5F5;
+            --text-dark: #999999;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-obsidian);
+            color: var(--text-light);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 70px;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- SCREEN SIZE LAYOUT ENGINE --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* --- ANIMATION FRAMEWORKS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- NAVIGATION STYLES --- */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(20, 20, 20, 0.95);
+            border-top: 1px solid var(--gold-muted);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 65px;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--gold-bright);
+        }
+
+        /* --- HERO & ORIGINS STYLES --- */
+        .hero {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 4rem;
+        }
+
+        .logo-wrapper {
+            width: 100%;
+            max-width: 280px;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .origins-text {
+            max-width: 680px;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 3rem;
+        }
+
+        .mission-box {
+            max-width: 750px;
+            border-left: 2px solid var(--gold-bright);
+            border-right: 2px solid var(--gold-bright);
+            padding: 1.5rem 2rem;
+            background-color: var(--bg-card);
+        }
+
+        .mission-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--gold-bright);
+            margin-bottom: 0.5rem;
+        }
+
+        .mission-statement {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* --- CARD GRID ENGINE --- */
+        .section-block {
+            padding: 5rem 0;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-bright);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .roster-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .knight-card {
+            background-color: var(--bg-card);
+            border: 1px solid #1a1a1a;
+            padding: 2rem;
+            border-radius: 4px;
+            transition: border-color 0.4s ease;
+        }
+
+        .knight-card:hover {
+            border-color: var(--gold-muted);
+        }
+
+        .knight-meta {
+            margin-bottom: 1.5rem;
+        }
+
+        .knight-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .knight-role {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold-bright);
+            margin-top: 0.25rem;
+        }
+
+        .knight-bio {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-gold {
+            display: inline-block;
+            background-color: transparent;
+            border: 1px solid var(--gold-bright);
+            color: var(--gold-bright);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-gold:hover {
+            background-color: var(--gold-bright);
+            color: var(--bg-obsidian);
+        }
+
+        /* --- FORM STRUCTURE STYLES --- */
+        .form-layout {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            border: 1px solid #1a1a1a;
+            padding: 2.5rem 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-obsidian);
+            border: 1px solid #222222;
+            color: var(--text-light);
+            padding: 0.8rem;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold-bright);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* --- DESKTOP DISPLAY UPGRADES --- */
+        @media (min-width: 768px) {
+            body {
+                padding-bottom: 0;
+            }
+
+            .nav-bar {
+                top: 0;
+                bottom: auto;
+                border-top: none;
+                border-bottom: 1px solid #1a1a1a;
+            }
+
+            .nav-container {
+                justify-content: flex-end;
+                gap: 3rem;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1.5rem;
+            }
+
+            .hero {
+                min-height: 100vh;
+                padding-top: 0;
+            }
+
+            .roster-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .roster-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- CORE INTERFACE NAVIGATION --- -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="#home" class="nav-link active">Home</a>
+            <a href="#roster" class="nav-link">Roster</a>
+            <a href="#join" class="nav-link">Join</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <!-- --- MAIN ENGINE PORTAL --- -->
+    <main class="container" id="home">
+        
+        <!-- --- PRIMARY HERO ZONE --- -->
+        <section class="hero">
+            <div class="logo-wrapper">
+                <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
+            </div>
+            <div class="origins-text">
+                <p>In the ancient world, Knights protected the realm with steel and shield. Times have changed, but the necessity for defense remains absolute. Today, the battlefield is psychological, and the weapons are digital. Code, design, and narrative are the architecture of human perception. Vanguard Citizen Services is a modern collective of elite creators—Knights who have emerged from the shadows of the past to master the tools of the present and secure a timeline worth living in.</p>
+            </div>
+            <div class="mission-box">
+                <p class="mission-title">Primary Directive</p>
+                <h1 class="mission-statement">We construct the narratives that shape human behavior. Our objective is positive coexistence, executed through unyielding creative craftsmanship.</h1>
+            </div>
+        </section>
+
+        <!-- --- THE COLLECTIVE ROSTER --- -->
+        <section class="section-block reveal" id="roster">
+            <div class="section-header">
+                <h2>The Roster of Knights</h2>
+                <p>The deployed specialists holding the perimeter across modern creative domains.</p>
+            </div>
+            <div class="roster-grid">
+                
+                <!-- Knight 01 Card -->
+                <div class="knight-card">
+                    <div class="knight-meta">
+                        <h3 class="knight-name">Quincy Jones</h3>
+                        <p class="knight-role">Knight-01 // Studio Commander</p>
+                    </div>
+                    <p class="knight-bio">Crafting systems architecture and unyielding motivational structures to transform operational chaos into order.</p>
+                    <a href="https://qkommand.com" target="_blank" class="btn-gold">Access Command Post</a>
+                </div>
+
+                <!-- Placeholder Knight 02 Card -->
+                <div class="knight-card">
+                    <div class="knight-meta">
+                        <h3 class="knight-name">Placeholder Knight</h3>
+                        <p class="knight-role">Knight-02 // Creative Contributor</p>
+                    </div>
+                    <p class="knight-bio">This slot is reserved for verification of tactical creative assets and verified narrative builders.</p>
+                    <button class="btn-gold" disabled style="opacity: 0.5; cursor: not-allowed;">Awaiting Deployment</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- --- DISCORD RECRUITMENT INTERFACE --- -->
+        <section class="section-block reveal" id="join">
+            <div class="section-header">
+                <h2>Join the Order</h2>
+                <p>Our staging arena runs through Discord. Submit your credentials to step up to the Round Table.</p>
+            </div>
+            <div class="form-wrapper">
+                <!-- Change the action URL to your Formspree/Web3Forms deployment link -->
+                <form action="https://api.web3forms.com/submit" method="POST" class="form-layout">
+                    <!-- Replace with your actual Web3Forms access key -->
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <input type="hidden" name="subject" value="New Knight Recruitment Application">
+                    
+                    <div class="form-group">
+                        <label for="recruit-name">Handle / Name</label>
+                        <input type="text" id="recruit-name" name="name" class="form-control" required placeholder="Ex. Gideon">
+                    </div>
+                    <div class="form-group">
+                        <label for="recruit-discord">Discord ID</label>
+                        <input type="text" id="recruit-discord" name="discord_id" class="form-control" required placeholder="Ex. username#0000">
+                    </div>
+                    <div class="form-group">
+                        <label for="recruit-discipline">Primary Discipline</label>
+                        <input type="text" id="recruit-discipline" name="discipline" class="form-control" required placeholder="Ex. Writer, Developer, Designer">
+                    </div>
+                    <div class="form-group">
+                        <label for="recruit-portfolio">Portfolio Link / Creative Codex</label>
+                        <input type="url" id="recruit-portfolio" name="portfolio" class="form-control" required placeholder="https://">
+                    </div>
+                    <button type="submit" class="btn-gold">Submit Application</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- --- CLIENT TRANSMISSION MESSENGER --- -->
+        <section class="section-block reveal" id="contact">
+            <div class="section-header">
+                <h2>Send a Messenger</h2>
+                <p>Secure narrative consults and strategic creative studio execution pipelines.</p>
+            </div>
+            <div class="form-wrapper">
+                <!-- Change the action URL to your Formspree/Web3Forms deployment link -->
+                <form action="https://api.web3forms.com/submit" method="POST" class="form-layout">
+                    <!-- Replace with your actual Web3Forms access key -->
+                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                    <input type="hidden" name="subject" value="VCS Secure Client Consultation Project Request">
+
+                    <div class="form-group">
+                        <label for="client-name">Your Name / Organization</label>
+                        <input type="text" id="client-name" name="client_name" class="form-control" required placeholder="Ex. Weyland Corp">
+                    </div>
+                    <div class="form-group">
+                        <label for="client-email">Secure Email Address</label>
+                        <input type="email" id="client-email" name="email" class="form-control" required placeholder="name@domain.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="client-objective">The Objective (Project Details)</label>
+                        <textarea id="client-objective" name="project_details" class="form-control" required placeholder="Describe the mission scope..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-gold">Transmit Signal</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- --- RUNTIME FUNCTION LOGIC --- -->
+    <script>
+        /* --- RUNTIME STATE PROTOCOLS --- */
+        const UIConfig = {
+            scroll_tracking: 'on',
+            nav_highlighting: 'on'
+        };
+
+        /* --- SCROLL REVEAL INTERSECTION CONTROLS --- */
+        if (UIConfig.scroll_tracking === 'on') {
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(element => {
+                revealObserver.observe(element);
+            });
+        }
+
+        /* --- ACTIVE NAVIGATION SYNC PROTOCOLS --- */
+        if (UIConfig.nav_highlighting === 'on') {
+            const sections = document.querySelectorAll('main, section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let currentSection = 'home';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        currentSection = section.getAttribute('id') || 'home';
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
