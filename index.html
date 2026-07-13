@@ -3,266 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vanguard Citizen Services</title>
-    
-    <meta property="og:title" content="Vanguard Citizen Services">
-    <meta property="og:description" content="We construct the narratives that shape human behavior. Our objective is positive coexistence.">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="vcslogo.png">
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    <title>QKommand | The Collection</title>
     <style>
+        /* ==========================================================================
+           CATEGORY: THEME VARIABLES & CORES
+           ========================================================================= */
         :root {
-            --bg-obsidian: #0D0D0D;
-            --bg-card: #141414;
-            --gold-bright: #D4AF37;
-            --gold-muted: #AA8C2C;
+            --bg-deep: #050508;
             --text-main: #FFFFFF;
-            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --text-muted: #FFFFFF;
+            --cyber-blue: #A5C9FF;
+            --cyber-purple: #D1B3FF;
+            --panel-bg: rgba(15, 15, 25, 0.6);
+            --border-glow: rgba(209, 179, 255, 0.2);
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
-            background-color: var(--bg-obsidian);
+            background-color: var(--bg-deep);
             color: var(--text-main);
-            font-family: var(--font-main);
+            font-family: var(--font-stack);
             line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        a { color: inherit; text-decoration: none; }
+        /* ==========================================================================
+           CATEGORY: BACKGROUND CANVAS
+           ========================================================================= */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        /* ==========================================================================
+           CATEGORY: NAVIGATION HEADER
+           ========================================================================= */
+        header {
+            width: 100%;
+            max-width: 600px;
+            position: sticky;
+            top: 0;
+            background: var(--bg-deep); 
+            z-index: 100;
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid var(--border-glow);
+            transition: max-width 0.3s ease, padding 0.3s ease;
+        }
 
-        .section-block { padding: 5rem 0; border-top: 1px solid #1a1a1a; }
-        .section-header { text-align: center; margin-bottom: 3.5rem; }
-        .section-header h2 { font-size: 1.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 0.5rem; }
-        .section-header p { color: var(--text-main); font-size: 0.95rem; }
+        .nav-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            display: flex;
+            scrollbar-width: none; 
+        }
 
-        .reveal { opacity: 0; transform: translateY(15px); transition: opacity 0.8s ease, transform 0.8s ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .nav-scroll-container::-webkit-scrollbar {
+            display: none; 
+        }
 
-        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(20, 20, 20, 0.95); border-top: 1px solid var(--gold-muted); backdrop-filter: blur(10px); z-index: 1000; }
-        .nav-container { display: flex; justify-content: space-around; align-items: center; height: 65px; }
-        .nav-link { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-main); text-transform: uppercase; transition: color 0.3s ease; }
-        .nav-link:hover, .nav-link.active { color: var(--gold-bright); }
+        .nav-track {
+            display: flex;
+            gap: 0.5rem;
+            width: 100%;
+        }
 
-        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 4rem; }
-        .logo-wrapper { width: 100%; max-width: 280px; margin-bottom: 1.5rem; }
-        .logo-wrapper img { width: 100%; height: auto; display: block; margin: 0 auto; }
+        @keyframes tabPulse {
+            0% { border-color: var(--border-glow); box-shadow: 0 0 2px rgba(209, 179, 255, 0.1); }
+            50% { border-color: rgba(209, 179, 255, 0.5); box-shadow: 0 0 8px rgba(209, 179, 255, 0.3); }
+            100% { border-color: var(--border-glow); box-shadow: 0 0 2px rgba(209, 179, 255, 0.1); }
+        }
 
-        /* ANIMATED GOLD TEXT */
-        .logo-text {
-            font-size: 1.1rem;
+        .nav-link {
+            flex: 1 1 auto;
+            max-width: calc(33.33% - 0.35rem);
+            min-width: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-glow);
+            color: #FFFFFF;
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            transition: background 0.3s ease, color 0.3s ease;
+            animation: tabPulse 3s infinite ease-in-out;
+        }
+
+        .nav-link:hover {
+            border-color: var(--cyber-purple);
+            color: var(--cyber-blue);
+            background: rgba(209, 179, 255, 0.1);
+        }
+
+        /* ==========================================================================
+           CATEGORY: PORTAL LAYOUT WRAPPER
+           ========================================================================= */
+        .portal-wrapper {
+            width: 100%;
+            max-width: 600px;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            transition: max-width 0.3s ease, padding 0.3s ease;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 2.5rem;
-            background: linear-gradient(90deg, #D4AF37 0%, #FFFFFF 50%, #D4AF37 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: sheen 3s infinite linear;
+            text-align: center;
+            color: var(--text-main);
         }
 
-        @keyframes sheen {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        /* ==========================================================================
+           CATEGORY: COLLECTION GRID GRAPHICS
+           ========================================================================= */
+        .collection-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
         }
 
-        .origins-text { max-width: 680px; font-size: 1.05rem; color: var(--text-main); margin-bottom: 3rem; }
-        .mission-box { max-width: 750px; border-left: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright); padding: 1.5rem 2rem; background-color: var(--bg-card); }
-        .mission-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold-bright); margin-bottom: 0.5rem; }
-        .mission-statement { font-size: 1.35rem; font-weight: 700; color: var(--text-main); line-height: 1.4; }
+        .book-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-glow);
+            padding: 2rem;
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: border-color 0.4s ease, transform 0.4s ease;
+        }
 
-        .roster-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-        .knight-card { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2rem; border-radius: 4px; transition: border-color 0.4s ease; }
-        .knight-card:hover { border-color: var(--gold-muted); }
-        .knight-meta { margin-bottom: 1.5rem; }
-        .knight-name { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
-        .knight-role { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-top: 0.25rem; }
-        .knight-bio { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.5rem; }
+        .book-card:hover {
+            border-color: rgba(165, 201, 255, 0.4);
+            transform: translateY(-2px);
+        }
 
-        .btn-gold { display: inline-block; background-color: transparent; border: 1px solid var(--gold-bright); color: var(--gold-bright); padding: 0.6rem 1.2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s ease, color 0.3s ease; cursor: pointer; }
-        .btn-gold:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
+        .book-meta {
+            margin-bottom: 1.5rem;
+        }
 
-        .form-layout { max-width: 600px; margin: 0 auto; background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 0.5rem; }
-        .form-control { width: 100%; background-color: var(--bg-obsidian); border: 1px solid #222222; color: var(--text-main); padding: 0.8rem; font-family: var(--font-main); font-size: 0.95rem; transition: border-color 0.3s ease; }
-        .form-control:focus { outline: none; border-color: var(--gold-bright); }
-        textarea.form-control { resize: vertical; min-height: 120px; }
+        .book-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--cyber-purple);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
 
-        .system-toast { position: fixed; bottom: -100px; right: 20px; background-color: var(--bg-obsidian); border: 1px solid var(--gold-bright); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 4px; z-index: 2000; box-shadow: 0 4px 20px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 0.75rem; }
-        .system-toast.show { bottom: 90px; }
-        .toast-indicator { display: block; width: 8px; height: 8px; background-color: var(--gold-bright); border-radius: 50%; }
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
 
-        footer { text-align: center; padding: 4rem 1.5rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .book-description {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
 
+        .btn-action {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid var(--cyber-blue);
+            color: var(--cyber-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            background: var(--cyber-blue);
+            color: var(--bg-deep);
+        }
+
+        /* ==========================================================================
+           CATEGORY: TERMINAL FOOTER
+           ========================================================================= */
+        footer {
+            width: 100%;
+            padding: 2rem 1rem;
+            text-align: center;
+            background: linear-gradient(to top, var(--bg-deep) 40%, transparent);
+            margin-top: auto;
+        }
+
+        .footer-link {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #FFFFFF;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--cyber-blue);
+        }
+
+        /* ==========================================================================
+           CATEGORY: DESKTOP DISPLAY ADAPTATIONS
+           ========================================================================= */
         @media (min-width: 768px) {
-            body { padding-bottom: 0; }
-            .nav-bar { top: 0; bottom: auto; border-top: none; border-bottom: 1px solid #1a1a1a; }
-            .nav-container { justify-content: flex-end; gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-            .hero { min-height: 100vh; padding-top: 85px; }
-            .roster-grid { grid-template-columns: repeat(2, 1fr); }
-            .system-toast.show { bottom: 30px; }
+            header {
+                max-width: 1000px;
+                padding: 2rem;
+            }
+
+            .portal-wrapper {
+                max-width: 1000px;
+                padding: 3rem 2rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+                margin-bottom: 3.5rem;
+            }
+
+            .collection-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .nav-link {
+                max-width: none;
+                font-size: 0.85rem;
+            }
+
+            .book-title {
+                font-size: 1.4rem;
+            }
+
+            .book-description {
+                font-size: 1.05rem;
+            }
+
+            .btn-action {
+                font-size: 0.85rem;
+            }
+
+            .footer-link {
+                font-size: 0.85rem;
+            }
         }
-        @media (min-width: 1024px) { .roster-grid { grid-template-columns: repeat(3, 1fr); } }
     </style>
 </head>
 <body>
 
-    <nav class="nav-bar">
-        <div class="nav-container">
-            <a href="#home" class="nav-link active">Home</a>
-            <a href="#roster" class="nav-link">Roster</a>
-            <a href="#contact" class="nav-link">Contact</a>
+    <canvas id="starfield"></canvas>
+
+    <header>
+        <div class="nav-scroll-container">
+            <div class="nav-track">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../mission/index.html" class="nav-link">My Mission</a>
+                <a href="../order/index.html" class="nav-link">The Order</a>
+            </div>
         </div>
-    </nav>
+    </header>
 
-    <div id="system-toast" class="system-toast">
-        <span class="toast-indicator"></span>
-        <span id="toast-message"></span>
-    </div>
+    <main class="portal-wrapper">
 
-    <main class="container" id="home">
-        <section class="hero">
-            <div class="logo-wrapper">
-                <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
-                <h1 class="logo-text">Vanguard Citizen Services</h1>
-            </div>
-            <div class="origins-text">
-                <p>Knights used to protect the realm with steel and shields. Today, the battlefield is the mind, and the tools are digital. We build the stories that shape how people see the world. Vanguard Citizen Services is a modern collective of creative Knights. We've traded swords for keyboards to master the art of storytelling and help build a future we actually want to live in.</p>
-            </div>
-            <div class="mission-box">
-                <p class="mission-title">Primary Directive</p>
-                <h1 class="mission-statement">We craft narratives that shape human connection. Our goal is simple: drive positive coexistence through great creative work.</h1>
-            </div>
-        </section>
+        <h1 class="page-title">The Collection</h1>
 
-        <section class="section-block reveal" id="roster">
-            <div class="section-header">
-                <h2>The Roster</h2>
-                <p>The creative specialists holding the line and bringing the vision to life.</p>
-            </div>
-            <div class="roster-grid">
-                <div class="knight-card">
-                    <div class="knight-meta">
-                        <h3 class="knight-name">Quincy Jones</h3>
-                        <p class="knight-role">Knight-01 // Chief Vision Officer</p>
-                    </div>
-                    <p class="knight-bio">Guiding the studio's creative vision and turning big-picture ideas into real, world-shaping stories.</p>
-                    <a href="https://qkommand.github.io/home/index.html" target="_blank" class="btn-gold">Visit Headquarters</a>
+        <div class="collection-grid">
+            <div class="book-card" id="ordo-book">
+                <div class="book-meta">
+                    <span class="book-tag">[ Available Now ]</span>
+                    <h2 class="book-title">The Ordo Mindset</h2>
+                    <p class="book-description">A straightforward field guide built around getting out of your own head and straight into execution. No fluffy theories or standard self-help hacks—just real strategies on how to set up a baseline daily rhythm that forces momentum to take care of itself.</p>
                 </div>
-                <div class="knight-card">
-                    <div class="knight-meta">
-                        <h3 class="knight-name">Kona Agpalza</h3>
-                        <p class="knight-role">Knight-02 // Chief Operations Officer</p>
-                    </div>
-                    <p class="knight-bio">Running the engines. Keeping the back-end infrastructure and studio operations smooth so the creative team can do what they do best.</p>
-                    <button class="btn-gold" disabled>Holding the Line</button>
+                <a href="#" class="btn-action">Read the Guide</a>
+            </div>
+
+            <div class="book-card" id="blueprint-book">
+                <div class="book-meta">
+                    <span class="book-tag">[ Upcoming Release ]</span>
+                    <h2 class="book-title">The Blueprint Manifesto</h2>
+                    <p class="book-description">My primary written layout targeting systematic narrative design, tactical creative execution, and how we map functional communities. This covers the foundational baseline values needed to secure sustainable, real-world coexistence.</p>
                 </div>
+                <a href="#" class="btn-action">Join Waitlist</a>
             </div>
-        </section>
+        </div>
 
-        <section class="section-block reveal" id="discord">
-            <div class="section-header">
-                <h2>Join the Grand Hall</h2>
-                <p>Our guild runs through Discord. Step inside to join the conversation and participate in our daily rhythm.</p>
-            </div>
-            <div style="text-align: center;">
-                <a href="https://discord.gg/Stk8bCUKDz" target="_blank" class="btn-gold" style="padding: 1rem 2rem; font-size: 1rem;">Join the Conversation</a>
-            </div>
-        </section>
-
-        <section class="section-block reveal" id="contact">
-            <div class="section-header">
-                <h2>Send a Message</h2>
-                <p>Looking to collaborate or need some creative firepower? Drop a note in our inbox.</p>
-            </div>
-            <div class="form-wrapper">
-                <form id="contact-form" class="form-layout">
-                    <div class="form-group">
-                        <label for="client-name">Your Name / Organization</label>
-                        <input type="text" id="client-name" class="form-control" required placeholder="Ex. Weyland Corp">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-email">Email Address</label>
-                        <input type="email" id="client-email" class="form-control" required placeholder="name@domain.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="client-objective">Project Details</label>
-                        <textarea id="client-objective" class="form-control" required placeholder="Tell us what you're building..."></textarea>
-                    </div>
-                    <button type="submit" id="contact-submit-btn" class="btn-gold">Send Message</button>
-                </form>
-            </div>
-        </section>
     </main>
 
     <footer>
-        &copy; 2026 Vanguard Citizen Services
+        <a href="https://vng-org.github.io/vcs/#home" target="_blank" class="footer-link">Powered by Vanguard Citizen Services</a>
     </footer>
 
-    <script>
-        const UIConfig = { scroll_tracking: 'on', nav_highlighting: 'on', database_routing: 'on', toast_notifications: 'on' };
-        const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
-        const SUPABASE_ANON_KEY = "sb_publishable__Z-lufnCWVAzM6-NjthKiw_KMkLQn-M";
-
-        function triggerToast(messageText) {
-            if (UIConfig.toast_notifications === 'on') {
-                const toastBox = document.getElementById('system-toast');
-                const toastMsg = document.getElementById('toast-message');
-                toastMsg.innerText = messageText;
-                toastBox.classList.add('show');
-                setTimeout(() => { toastBox.classList.remove('show'); }, 4000);
-            }
-        }
-
-        if (UIConfig.database_routing === 'on') {
-            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            const contactForm = document.getElementById('contact-form');
-            const contactBtn = document.getElementById('contact-submit-btn');
-
-            if (contactForm) {
-                contactForm.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    contactBtn.disabled = true;
-                    contactBtn.innerText = "TRANSMITTING...";
-                    const payload = {
-                        client_name: document.getElementById('client-name').value,
-                        email: document.getElementById('client-email').value,
-                        project_details: document.getElementById('client-objective').value
-                    };
-                    const { error } = await supabaseClient.from('contactmessages').insert([payload]);
-                    if (error) { console.error("SUPABASE ERROR:", error.message); alert("Transmission failed."); }
-                    else { triggerToast("Message sent. We'll get back to you soon."); contactForm.reset(); }
-                    contactBtn.disabled = false;
-                    contactBtn.innerText = "SEND MESSAGE";
-                });
-            }
-        }
-
-        if (UIConfig.scroll_tracking === 'on') {
-            const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-        }
-
-        if (UIConfig.nav_highlighting === 'on') {
-            const sections = document.querySelectorAll('main, section[id]');
-            const navLinks = document.querySelectorAll('.nav-link');
-            window.addEventListener('scroll', () => {
-                let current = 'home';
-                sections.forEach(sec => { if (pageYOffset >= (sec.offsetTop - 200)) current = sec.getAttribute('id') || 'home'; });
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
-                });
-            });
-        }
-    </script>
+    <script src="../starfield.js"></script>
 </body>
 </html>
