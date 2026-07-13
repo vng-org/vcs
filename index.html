@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanguard Citizen Services</title>
     
-    <!-- META -->
     <meta property="og:title" content="Vanguard Citizen Services">
     <meta property="og:description" content="We construct the narratives that shape human behavior. Our objective is positive coexistence.">
     <meta property="og:type" content="website">
     <meta property="og:image" content="vcslogo.png">
 
-    <!-- SUPABASE -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        /* VARIABLES */
         :root {
             --bg-obsidian: #0D0D0D;
             --bg-card: #141414;
@@ -25,12 +22,7 @@
             --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
-        /* BASE */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--bg-obsidian);
@@ -38,333 +30,89 @@
             font-family: var(--font-main);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-bottom: 70px;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
 
-        /* LAYOUT */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
-        .section-block {
-            padding: 5rem 0;
-            border-top: 1px solid #1a1a1a;
-        }
+        .section-block { padding: 5rem 0; border-top: 1px solid #1a1a1a; }
+        .section-header { text-align: center; margin-bottom: 3.5rem; }
+        .section-header h2 { font-size: 1.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 0.5rem; }
+        .section-header p { color: var(--text-main); font-size: 0.95rem; }
 
-        .section-header {
-            text-align: center;
-            margin-bottom: 3.5rem;
-        }
+        .reveal { opacity: 0; transform: translateY(15px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        .section-header h2 {
-            font-size: 1.75rem;
+        .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(20, 20, 20, 0.95); border-top: 1px solid var(--gold-muted); backdrop-filter: blur(10px); z-index: 1000; }
+        .nav-container { display: flex; justify-content: space-around; align-items: center; height: 65px; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-main); text-transform: uppercase; transition: color 0.3s ease; }
+        .nav-link:hover, .nav-link.active { color: var(--gold-bright); }
+
+        .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 4rem; }
+        .logo-wrapper { width: 100%; max-width: 280px; margin-bottom: 1.5rem; }
+        .logo-wrapper img { width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        /* ANIMATED GOLD TEXT */
+        .logo-text {
+            font-size: 1.1rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gold-bright);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-header p {
-            color: var(--text-main);
-            font-size: 0.95rem;
-        }
-
-        /* ANIMATIONS */
-        .reveal {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* NAVIGATION */
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(20, 20, 20, 0.95);
-            border-top: 1px solid var(--gold-muted);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 65px;
-        }
-
-        .nav-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            color: var(--text-main);
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            color: var(--gold-bright);
-        }
-
-        /* HERO */
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding-top: 4rem;
-        }
-
-        .logo-wrapper {
-            width: 100%;
-            max-width: 280px;
+            letter-spacing: 0.3em;
             margin-bottom: 2.5rem;
+            background: linear-gradient(90deg, #D4AF37 0%, #FFFFFF 50%, #D4AF37 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: sheen 3s infinite linear;
         }
 
-        .logo-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+        @keyframes sheen {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
-        .origins-text {
-            max-width: 680px;
-            font-size: 1.05rem;
-            color: var(--text-main);
-            margin-bottom: 3rem;
-        }
+        .origins-text { max-width: 680px; font-size: 1.05rem; color: var(--text-main); margin-bottom: 3rem; }
+        .mission-box { max-width: 750px; border-left: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright); padding: 1.5rem 2rem; background-color: var(--bg-card); }
+        .mission-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold-bright); margin-bottom: 0.5rem; }
+        .mission-statement { font-size: 1.35rem; font-weight: 700; color: var(--text-main); line-height: 1.4; }
 
-        .mission-box {
-            max-width: 750px;
-            border-left: 2px solid var(--gold-bright);
-            border-right: 2px solid var(--gold-bright);
-            padding: 1.5rem 2rem;
-            background-color: var(--bg-card);
-        }
+        .roster-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .knight-card { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2rem; border-radius: 4px; transition: border-color 0.4s ease; }
+        .knight-card:hover { border-color: var(--gold-muted); }
+        .knight-meta { margin-bottom: 1.5rem; }
+        .knight-name { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
+        .knight-role { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-top: 0.25rem; }
+        .knight-bio { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
-        .mission-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--gold-bright);
-            margin-bottom: 0.5rem;
-        }
+        .btn-gold { display: inline-block; background-color: transparent; border: 1px solid var(--gold-bright); color: var(--gold-bright); padding: 0.6rem 1.2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s ease, color 0.3s ease; cursor: pointer; }
+        .btn-gold:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
 
-        .mission-statement {
-            font-size: 1.35rem;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.4;
-        }
+        .form-layout { max-width: 600px; margin: 0 auto; background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-main); margin-bottom: 0.5rem; }
+        .form-control { width: 100%; background-color: var(--bg-obsidian); border: 1px solid #222222; color: var(--text-main); padding: 0.8rem; font-family: var(--font-main); font-size: 0.95rem; transition: border-color 0.3s ease; }
+        .form-control:focus { outline: none; border-color: var(--gold-bright); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
 
-        /* ROSTER */
-        .roster-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
+        .system-toast { position: fixed; bottom: -100px; right: 20px; background-color: var(--bg-obsidian); border: 1px solid var(--gold-bright); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 4px; z-index: 2000; box-shadow: 0 4px 20px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 0.75rem; }
+        .system-toast.show { bottom: 90px; }
+        .toast-indicator { display: block; width: 8px; height: 8px; background-color: var(--gold-bright); border-radius: 50%; }
 
-        .knight-card {
-            background-color: var(--bg-card);
-            border: 1px solid #1a1a1a;
-            padding: 2rem;
-            border-radius: 4px;
-            transition: border-color 0.4s ease;
-        }
+        footer { text-align: center; padding: 4rem 1.5rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        .knight-card:hover {
-            border-color: var(--gold-muted);
-        }
-
-        .knight-meta {
-            margin-bottom: 1.5rem;
-        }
-
-        .knight-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .knight-role {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gold-bright);
-            margin-top: 0.25rem;
-        }
-
-        .knight-bio {
-            color: var(--text-main);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .btn-gold {
-            display: inline-block;
-            background-color: transparent;
-            border: 1px solid var(--gold-bright);
-            color: var(--gold-bright);
-            padding: 0.6rem 1.2rem;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-gold:hover {
-            background-color: var(--gold-bright);
-            color: var(--bg-obsidian);
-        }
-
-        .btn-gold:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        /* FORMS */
-        .form-layout {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: var(--bg-card);
-            border: 1px solid #1a1a1a;
-            padding: 2.5rem 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-control {
-            width: 100%;
-            background-color: var(--bg-obsidian);
-            border: 1px solid #222222;
-            color: var(--text-main);
-            padding: 0.8rem;
-            font-family: var(--font-main);
-            font-size: 0.95rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--gold-bright);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        /* TOAST */
-        .system-toast {
-            position: fixed;
-            bottom: -100px;
-            right: 20px;
-            background-color: var(--bg-obsidian);
-            border: 1px solid var(--gold-bright);
-            color: var(--text-main);
-            padding: 1rem 1.5rem;
-            border-radius: 4px;
-            z-index: 2000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            transition: bottom 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .system-toast.show {
-            bottom: 90px;
-        }
-
-        .toast-indicator {
-            display: block;
-            width: 8px;
-            height: 8px;
-            background-color: var(--gold-bright);
-            border-radius: 50%;
-        }
-
-        /* MEDIA QUERIES */
         @media (min-width: 768px) {
-            body {
-                padding-bottom: 0;
-            }
-
-            .nav-bar {
-                top: 0;
-                bottom: auto;
-                border-top: none;
-                border-bottom: 1px solid #1a1a1a;
-            }
-
-            .nav-container {
-                justify-content: flex-end;
-                gap: 3rem;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 1.5rem;
-            }
-
-            .hero {
-                min-height: 100vh;
-                padding-top: 85px;
-            }
-
-            .roster-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .system-toast.show {
-                bottom: 30px;
-            }
+            body { padding-bottom: 0; }
+            .nav-bar { top: 0; bottom: auto; border-top: none; border-bottom: 1px solid #1a1a1a; }
+            .nav-container { justify-content: flex-end; gap: 3rem; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+            .hero { min-height: 100vh; padding-top: 85px; }
+            .roster-grid { grid-template-columns: repeat(2, 1fr); }
+            .system-toast.show { bottom: 30px; }
         }
-        
-        @media (min-width: 1024px) {
-            .roster-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
+        @media (min-width: 1024px) { .roster-grid { grid-template-columns: repeat(3, 1fr); } }
     </style>
 </head>
 <body>
 
-    <!-- NAVIGATION -->
     <nav class="nav-bar">
         <div class="nav-container">
             <a href="#home" class="nav-link active">Home</a>
@@ -373,18 +121,16 @@
         </div>
     </nav>
 
-    <!-- TOAST -->
     <div id="system-toast" class="system-toast">
         <span class="toast-indicator"></span>
         <span id="toast-message"></span>
     </div>
 
     <main class="container" id="home">
-        
-        <!-- HERO -->
         <section class="hero">
             <div class="logo-wrapper">
                 <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
+                <h1 class="logo-text">Vanguard Citizen Services</h1>
             </div>
             <div class="origins-text">
                 <p>Knights used to protect the realm with steel and shields. Today, the battlefield is the mind, and the tools are digital. We build the stories that shape how people see the world. Vanguard Citizen Services is a modern collective of creative Knights. We've traded swords for keyboards to master the art of storytelling and help build a future we actually want to live in.</p>
@@ -395,23 +141,20 @@
             </div>
         </section>
 
-        <!-- ROSTER -->
         <section class="section-block reveal" id="roster">
             <div class="section-header">
                 <h2>The Roster</h2>
                 <p>The creative specialists holding the line and bringing the vision to life.</p>
             </div>
             <div class="roster-grid">
-                
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Quincy Jones</h3>
                         <p class="knight-role">Knight-01 // Chief Vision Officer</p>
                     </div>
                     <p class="knight-bio">Guiding the studio's creative vision and turning big-picture ideas into real, world-shaping stories.</p>
-                    <a href="https://qkommand.github.io/home/" target="_blank" class="btn-gold">Visit Headquarters</a>
+                    <a href="https://qkommand.com" target="_blank" class="btn-gold">Visit Headquarters</a>
                 </div>
-
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Kona Agpalza</h3>
@@ -420,11 +163,9 @@
                     <p class="knight-bio">Running the engines. Keeping the back-end infrastructure and studio operations smooth so the creative team can do what they do best.</p>
                     <button class="btn-gold" disabled>Holding the Line</button>
                 </div>
-
             </div>
         </section>
 
-        <!-- DISCORD ENTRY -->
         <section class="section-block reveal" id="discord">
             <div class="section-header">
                 <h2>Join the Grand Hall</h2>
@@ -435,7 +176,6 @@
             </div>
         </section>
 
-        <!-- CONTACT -->
         <section class="section-block reveal" id="contact">
             <div class="section-header">
                 <h2>Send a Message</h2>
@@ -459,39 +199,29 @@
                 </form>
             </div>
         </section>
-
     </main>
 
-    <script>
-        /* CONFIGURATION */
-        const UIConfig = {
-            scroll_tracking: 'on',
-            nav_highlighting: 'on',
-            database_routing: 'on',
-            toast_notifications: 'on'
-        };
+    <footer>
+        &copy; 2026 Vanguard Citizen Services
+    </footer>
 
+    <script>
+        const UIConfig = { scroll_tracking: 'on', nav_highlighting: 'on', database_routing: 'on', toast_notifications: 'on' };
         const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable__Z-lufnCWVAzM6-NjthKiw_KMkLQn-M";
 
-        /* TOAST LOGIC */
         function triggerToast(messageText) {
             if (UIConfig.toast_notifications === 'on') {
                 const toastBox = document.getElementById('system-toast');
                 const toastMsg = document.getElementById('toast-message');
                 toastMsg.innerText = messageText;
                 toastBox.classList.add('show');
-                setTimeout(() => {
-                    toastBox.classList.remove('show');
-                }, 4000);
+                setTimeout(() => { toastBox.classList.remove('show'); }, 4000);
             }
         }
 
-        /* DATABASE INTEGRATION */
         if (UIConfig.database_routing === 'on') {
             const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-            /* CONTACT FORM */
             const contactForm = document.getElementById('contact-form');
             const contactBtn = document.getElementById('contact-submit-btn');
 
@@ -500,49 +230,33 @@
                     e.preventDefault();
                     contactBtn.disabled = true;
                     contactBtn.innerText = "TRANSMITTING...";
-
                     const payload = {
                         client_name: document.getElementById('client-name').value,
                         email: document.getElementById('client-email').value,
                         project_details: document.getElementById('client-objective').value
                     };
-
                     const { error } = await supabaseClient.from('contactmessages').insert([payload]);
-
-                    if (error) {
-                        console.error("SUPABASE ERROR:", error.message, error.details);
-                        alert("Transmission failed. Check console.");
-                    } else {
-                        triggerToast("Message sent. We'll get back to you soon.");
-                        contactForm.reset();
-                    }
+                    if (error) { console.error("SUPABASE ERROR:", error.message); alert("Transmission failed."); }
+                    else { triggerToast("Message sent. We'll get back to you soon."); contactForm.reset(); }
                     contactBtn.disabled = false;
                     contactBtn.innerText = "SEND MESSAGE";
                 });
             }
         }
 
-        /* SCROLL REVEAL */
         if (UIConfig.scroll_tracking === 'on') {
             const revealObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('active');
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
             document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
         }
 
-        /* NAVIGATION SYNC */
         if (UIConfig.nav_highlighting === 'on') {
             const sections = document.querySelectorAll('main, section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
-
             window.addEventListener('scroll', () => {
                 let current = 'home';
-                sections.forEach(sec => {
-                    if (pageYOffset >= (sec.offsetTop - 200)) current = sec.getAttribute('id') || 'home';
-                });
+                sections.forEach(sec => { if (pageYOffset >= (sec.offsetTop - 200)) current = sec.getAttribute('id') || 'home'; });
                 navLinks.forEach(link => {
                     link.classList.remove('active');
                     if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
