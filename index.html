@@ -396,7 +396,7 @@
                         <label for="recruit-portfolio">Portfolio Link / Creative Codex</label>
                         <input type="url" id="recruit-portfolio" class="form-control" required placeholder="https://">
                     </div>
-                    <button type="submit" id="submit-btn" class="btn-gold">Submit Application</button>
+                    <button type="submit" id="recruit-submit-btn" class="btn-gold">Submit Application</button>
                 </form>
             </div>
         </section>
@@ -408,23 +408,20 @@
                 <p>Secure narrative consults and strategic creative studio execution pipelines.</p>
             </div>
             <div class="form-wrapper">
-                <form action="https://api.web3forms.com/submit" method="POST" class="form-layout">
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
-                    <input type="hidden" name="subject" value="VCS Secure Client Consultation Project Request">
-
+                <form id="contact-form" class="form-layout">
                     <div class="form-group">
                         <label for="client-name">Your Name / Organization</label>
-                        <input type="text" id="client-name" name="client_name" class="form-control" required placeholder="Ex. Weyland Corp">
+                        <input type="text" id="client-name" class="form-control" required placeholder="Ex. Weyland Corp">
                     </div>
                     <div class="form-group">
                         <label for="client-email">Secure Email Address</label>
-                        <input type="email" id="client-email" name="email" class="form-control" required placeholder="name@domain.com">
+                        <input type="email" id="client-email" class="form-control" required placeholder="name@domain.com">
                     </div>
                     <div class="form-group">
                         <label for="client-objective">The Objective (Project Details)</label>
-                        <textarea id="client-objective" name="project_details" class="form-control" required placeholder="Describe the mission scope..."></textarea>
+                        <textarea id="client-objective" class="form-control" required placeholder="Describe the mission scope..."></textarea>
                     </div>
-                    <button type="submit" class="btn-gold">Transmit Signal</button>
+                    <button type="submit" id="contact-submit-btn" class="btn-gold">Transmit Signal</button>
                 </form>
             </div>
         </section>
@@ -446,34 +443,67 @@
         /* --- DATABASE TRANSMISSION ENGINE --- */
         if (UIConfig.database_routing === 'on') {
             const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // 1. RECRUITMENT TRANSMISSION PROTOCOL
             const recruitForm = document.getElementById('recruitment-form');
-            const submitBtn = document.getElementById('submit-btn');
+            const recruitBtn = document.getElementById('recruit-submit-btn');
 
-            recruitForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                submitBtn.disabled = 'on';
-                submitBtn.innerText = "TRANSMITTING...";
+            if(recruitForm) {
+                recruitForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    recruitBtn.disabled = 'on';
+                    recruitBtn.innerText = "TRANSMITTING...";
 
-                const payload = {
-                    name: document.getElementById('recruit-name').value,
-                    discord_id: document.getElementById('recruit-discord').value,
-                    discipline: document.getElementById('recruit-discipline').value,
-                    portfolio: document.getElementById('recruit-portfolio').value
-                };
+                    const payload = {
+                        name: document.getElementById('recruit-name').value,
+                        discord_id: document.getElementById('recruit-discord').value,
+                        discipline: document.getElementById('recruit-discipline').value,
+                        portfolio: document.getElementById('recruit-portfolio').value
+                    };
 
-                const { error } = await supabaseClient
-                    .from('recruits')
-                    .insert([payload]);
+                    const { error } = await supabaseClient.from('recruits').insert([payload]);
 
-                if (error) {
-                    alert("Transmission failed. Secure lines disrupted.");
-                    submitBtn.disabled = 'off';
-                    submitBtn.innerText = "SUBMIT APPLICATION";
-                } else {
-                    submitBtn.innerText = "APPLICATION SECURED";
-                    recruitForm.reset();
-                }
-            });
+                    if (error) {
+                        console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
+                        alert("Transmission failed. Check browser console for details.");
+                        recruitBtn.disabled = 'off';
+                        recruitBtn.innerText = "SUBMIT APPLICATION";
+                    } else {
+                        recruitBtn.innerText = "APPLICATION SECURED";
+                        recruitForm.reset();
+                    }
+                });
+            }
+
+            // 2. CONTACT MESSENGER TRANSMISSION PROTOCOL
+            const contactForm = document.getElementById('contact-form');
+            const contactBtn = document.getElementById('contact-submit-btn');
+
+            if(contactForm) {
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    contactBtn.disabled = 'on';
+                    contactBtn.innerText = "TRANSMITTING...";
+
+                    const payload = {
+                        client_name: document.getElementById('client-name').value,
+                        email: document.getElementById('client-email').value,
+                        project_details: document.getElementById('client-objective').value
+                    };
+
+                    const { error } = await supabaseClient.from('contactmessages').insert([payload]);
+
+                    if (error) {
+                        console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
+                        alert("Transmission failed. Check browser console for details.");
+                        contactBtn.disabled = 'off';
+                        contactBtn.innerText = "TRANSMIT SIGNAL";
+                    } else {
+                        contactBtn.innerText = "SIGNAL SECURED";
+                        contactForm.reset();
+                    }
+                });
+            }
         }
 
         /* --- SCROLL REVEAL INTERSECTION CONTROLS --- */
