@@ -11,6 +11,9 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="vcslogo.png">
 
+    <!-- --- DATABASE CLIENT DEPENDENCY --- -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         /* --- CORE CONFIGURATION --- */
         :root {
@@ -307,12 +310,6 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
-        @media (min-width: 1024px) {
-            .roster-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
     </style>
 </head>
 <body>
@@ -348,28 +345,28 @@
         <section class="section-block reveal" id="roster">
             <div class="section-header">
                 <h2>The Roster of Knights</h2>
-                <p>The deployed specialists across modern creative domains.</p>
+                <p>The deployed specialists holding the perimeter across modern creative domains.</p>
             </div>
             <div class="roster-grid">
                 
-                <!-- Knight 01 Card -->
+                <!-- --- KNIGHT 01: CHIEF VISION OFFICER --- -->
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Quincy Jones</h3>
                         <p class="knight-role">Knight-01 // Chief Vision Officer</p>
                     </div>
-                    <p class="knight-bio">Directs the overarching narrative and creative design of the studio, translating systemic human issues into world shaping realities. .</p>
+                    <p class="knight-bio">Forging the overarching narrative direction and creative architecture of the studio, translating systemic human principles into world-shaping realities.</p>
                     <a href="https://qkommand.com" target="_blank" class="btn-gold">Access Command Post</a>
                 </div>
 
-                <!-- Placeholder Knight 02 Card -->
+                <!-- --- KNIGHT 02: CHIEF OPERATIONS OFFICER --- -->
                 <div class="knight-card">
                     <div class="knight-meta">
                         <h3 class="knight-name">Kona Agpalza</h3>
                         <p class="knight-role">Knight-02 // Chief Operations Officer</p>
                     </div>
-                    <p class="knight-bio">Commands the back end infrastructure and internal studio mechanics to guarantee flawless execution under pressure.</p>
-                    <button class="btn-gold" disabled style="opacity: 0.5; cursor: not-allowed;">Awaiting Deployment</button>
+                    <p class="knight-bio">Commanding the back-end infrastructure, operational defense lines, and internal studio mechanics to guarantee flawless execution under pressure.</p>
+                    <button class="btn-gold" style="opacity: 0.6; cursor: not-allowed;" disabled>Operations Secured</button>
                 </div>
 
             </div>
@@ -382,29 +379,24 @@
                 <p>Our staging arena runs through Discord. Submit your credentials to step up to the Round Table.</p>
             </div>
             <div class="form-wrapper">
-                <!-- Change the action URL to your Formspree/Web3Forms deployment link -->
-                <form action="https://api.web3forms.com/submit" method="POST" class="form-layout">
-                    <!-- Replace with your actual Web3Forms access key -->
-                    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
-                    <input type="hidden" name="subject" value="New Knight Recruitment Application">
-                    
+                <form id="recruitment-form" class="form-layout">
                     <div class="form-group">
                         <label for="recruit-name">Handle / Name</label>
-                        <input type="text" id="recruit-name" name="name" class="form-control" required placeholder="Ex. Gideon">
+                        <input type="text" id="recruit-name" class="form-control" required placeholder="Ex. Gideon">
                     </div>
                     <div class="form-group">
                         <label for="recruit-discord">Discord ID</label>
-                        <input type="text" id="recruit-discord" name="discord_id" class="form-control" required placeholder="Ex. username#0000">
+                        <input type="text" id="recruit-discord" class="form-control" required placeholder="Ex. username#0000">
                     </div>
                     <div class="form-group">
                         <label for="recruit-discipline">Primary Discipline</label>
-                        <input type="text" id="recruit-discipline" name="discipline" class="form-control" required placeholder="Ex. Writer, Developer, Designer">
+                        <input type="text" id="recruit-discipline" class="form-control" required placeholder="Ex. Writer, Developer, Designer">
                     </div>
                     <div class="form-group">
                         <label for="recruit-portfolio">Portfolio Link / Creative Codex</label>
-                        <input type="url" id="recruit-portfolio" name="portfolio" class="form-control" required placeholder="https://">
+                        <input type="url" id="recruit-portfolio" class="form-control" required placeholder="https://">
                     </div>
-                    <button type="submit" class="btn-gold">Submit Application</button>
+                    <button type="submit" id="submit-btn" class="btn-gold">Submit Application</button>
                 </form>
             </div>
         </section>
@@ -416,9 +408,7 @@
                 <p>Secure narrative consults and strategic creative studio execution pipelines.</p>
             </div>
             <div class="form-wrapper">
-                <!-- Change the action URL to your Formspree/Web3Forms deployment link -->
                 <form action="https://api.web3forms.com/submit" method="POST" class="form-layout">
-                    <!-- Replace with your actual Web3Forms access key -->
                     <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
                     <input type="hidden" name="subject" value="VCS Secure Client Consultation Project Request">
 
@@ -443,16 +433,52 @@
 
     <!-- --- RUNTIME FUNCTION LOGIC --- -->
     <script>
-        /* --- RUNTIME STATE PROTOCOLS --- */
+        /* --- CORE CONFIGURATION PROTOCOLS --- */
         const UIConfig = {
             scroll_tracking: 'on',
-            nav_highlighting: 'on'
+            nav_highlighting: 'on',
+            database_routing: 'on'
         };
+
+        const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable__Z-lufnCWVAzM6-NjthKiw_KMkLQn-M";
+
+        /* --- DATABASE TRANSMISSION ENGINE --- */
+        if (UIConfig.database_routing === 'on') {
+            const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            const recruitForm = document.getElementById('recruitment-form');
+            const submitBtn = document.getElementById('submit-btn');
+
+            recruitForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                submitBtn.disabled = 'on';
+                submitBtn.innerText = "TRANSMITTING...";
+
+                const payload = {
+                    name: document.getElementById('recruit-name').value,
+                    discord_id: document.getElementById('recruit-discord').value,
+                    discipline: document.getElementById('recruit-discipline').value,
+                    portfolio: document.getElementById('recruit-portfolio').value
+                };
+
+                const { error } = await supabaseClient
+                    .from('recruits')
+                    .insert([payload]);
+
+                if (error) {
+                    alert("Transmission failed. Secure lines disrupted.");
+                    submitBtn.disabled = 'off';
+                    submitBtn.innerText = "SUBMIT APPLICATION";
+                } else {
+                    submitBtn.innerText = "APPLICATION SECURED";
+                    recruitForm.reset();
+                }
+            });
+        }
 
         /* --- SCROLL REVEAL INTERSECTION CONTROLS --- */
         if (UIConfig.scroll_tracking === 'on') {
             const revealElements = document.querySelectorAll('.reveal');
-            
             const revealObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -476,10 +502,8 @@
 
             window.addEventListener('scroll', () => {
                 let currentSection = 'home';
-                
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
                     if (pageYOffset >= (sectionTop - 200)) {
                         currentSection = section.getAttribute('id') || 'home';
                     }
