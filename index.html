@@ -21,8 +21,8 @@
             --bg-card: #141414;
             --gold-bright: #D4AF37;
             --gold-muted: #AA8C2C;
-            --text-light: #F5F5F5;
-            --text-dark: #999999;
+            --text-light: #FFFFFF; /* Shifted to stark white */
+            --text-dark: #FFFFFF;  /* Grey text neutralized to white per request */
             --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -275,9 +275,72 @@
             border-color: var(--gold-bright);
         }
 
+        .form-control:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            background-color: #050505;
+        }
+
         textarea.form-control {
             resize: vertical;
             min-height: 120px;
+        }
+
+        /* --- CHECKBOX TOGGLE STYLE --- */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        
+        .checkbox-wrapper input[type="checkbox"] {
+            accent-color: var(--gold-bright);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrapper label {
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+        }
+
+        /* --- TOAST NOTIFICATION SYSTEM --- */
+        .system-toast {
+            position: fixed;
+            bottom: -100px;
+            right: 20px;
+            background-color: var(--bg-obsidian);
+            border: 1px solid var(--gold-bright);
+            color: var(--text-light);
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: bottom 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .system-toast.show {
+            bottom: 90px; /* Sits cleanly above mobile nav */
+        }
+
+        .toast-indicator {
+            display: block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--gold-bright);
+            border-radius: 50%;
         }
 
         /* --- DESKTOP DISPLAY UPGRADES --- */
@@ -309,6 +372,10 @@
             .roster-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .system-toast.show {
+                bottom: 30px; /* Relocated down for desktop viewing */
+            }
         }
     </style>
 </head>
@@ -323,6 +390,12 @@
             <a href="#contact" class="nav-link">Contact</a>
         </div>
     </nav>
+
+    <!-- --- SYSTEM TOAST MODULE --- -->
+    <div id="system-toast" class="system-toast">
+        <span class="toast-indicator"></span>
+        <span id="toast-message">Transmission Secured.</span>
+    </div>
 
     <!-- --- MAIN ENGINE PORTAL --- -->
     <main class="container" id="home">
@@ -395,6 +468,12 @@
                     <div class="form-group">
                         <label for="recruit-portfolio">Portfolio Link / Creative Codex</label>
                         <input type="url" id="recruit-portfolio" class="form-control" required placeholder="https://">
+                        
+                        <!-- NEW LINK TOGGLE CHECKBOX -->
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" id="no-portfolio-toggle">
+                            <label for="no-portfolio-toggle">I do not have a web link</label>
+                        </div>
                     </div>
                     <button type="submit" id="recruit-submit-btn" class="btn-gold">Submit Application</button>
                 </form>
@@ -434,11 +513,44 @@
         const UIConfig = {
             scroll_tracking: 'on',
             nav_highlighting: 'on',
-            database_routing: 'on'
+            database_routing: 'on',
+            toast_notifications: 'on'
         };
 
         const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable__Z-lufnCWVAzM6-NjthKiw_KMkLQn-M";
+
+        /* --- TOAST NOTIFICATION LOGIC --- */
+        function triggerToast(messageText) {
+            if (UIConfig.toast_notifications === 'on') {
+                const toastBox = document.getElementById('system-toast');
+                const toastMsg = document.getElementById('toast-message');
+                
+                toastMsg.innerText = messageText;
+                toastBox.classList.add('show');
+                
+                setTimeout(() => {
+                    toastBox.classList.remove('show');
+                }, 4000); // Retracts after 4 seconds
+            }
+        }
+
+        /* --- RECRUITMENT TOGGLE LOGIC --- */
+        const portfolioToggle = document.getElementById('no-portfolio-toggle');
+        const portfolioInput = document.getElementById('recruit-portfolio');
+
+        if (portfolioToggle && portfolioInput) {
+            portfolioToggle.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    portfolioInput.disabled = true;
+                    portfolioInput.required = false;
+                    portfolioInput.value = '';
+                } else {
+                    portfolioInput.disabled = false;
+                    portfolioInput.required = true;
+                }
+            });
+        }
 
         /* --- DATABASE TRANSMISSION ENGINE --- */
         if (UIConfig.database_routing === 'on') {
@@ -451,14 +563,17 @@
             if(recruitForm) {
                 recruitForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    recruitBtn.disabled = 'on';
+                    recruitBtn.disabled = true;
                     recruitBtn.innerText = "TRANSMITTING...";
+
+                    // Determine if portfolio URL is bypassed
+                    const linkValue = portfolioToggle.checked ? "N/A" : portfolioInput.value;
 
                     const payload = {
                         name: document.getElementById('recruit-name').value,
                         discord_id: document.getElementById('recruit-discord').value,
                         discipline: document.getElementById('recruit-discipline').value,
-                        portfolio: document.getElementById('recruit-portfolio').value
+                        portfolio: linkValue
                     };
 
                     const { error } = await supabaseClient.from('recruits').insert([payload]);
@@ -466,12 +581,17 @@
                     if (error) {
                         console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
                         alert("Transmission failed. Check browser console for details.");
-                        recruitBtn.disabled = 'off';
-                        recruitBtn.innerText = "SUBMIT APPLICATION";
                     } else {
-                        recruitBtn.innerText = "APPLICATION SECURED";
+                        triggerToast("Application Secured. Awaiting Review.");
                         recruitForm.reset();
+                        
+                        // Reset toggle lock state
+                        portfolioInput.disabled = false;
+                        portfolioInput.required = true;
                     }
+                    
+                    recruitBtn.disabled = false;
+                    recruitBtn.innerText = "SUBMIT APPLICATION";
                 });
             }
 
@@ -482,7 +602,7 @@
             if(contactForm) {
                 contactForm.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    contactBtn.disabled = 'on';
+                    contactBtn.disabled = true;
                     contactBtn.innerText = "TRANSMITTING...";
 
                     const payload = {
@@ -496,12 +616,13 @@
                     if (error) {
                         console.error("SUPABASE REJECTION DETAILS:", error.message, error.details, error.hint);
                         alert("Transmission failed. Check browser console for details.");
-                        contactBtn.disabled = 'off';
-                        contactBtn.innerText = "TRANSMIT SIGNAL";
                     } else {
-                        contactBtn.innerText = "SIGNAL SECURED";
+                        triggerToast("Signal Secured. We will contact you.");
                         contactForm.reset();
                     }
+
+                    contactBtn.disabled = false;
+                    contactBtn.innerText = "TRANSMIT SIGNAL";
                 });
             }
         }
