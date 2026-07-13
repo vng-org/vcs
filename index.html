@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- CATEGORY: METADATA & EXTERNAL RESOURCES -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanguard Citizen Services</title>
@@ -13,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
+        /* CATEGORY: CORE STYLES & VARIABLES */
         :root {
             --bg-obsidian: #0D0D0D;
             --bg-card: #141414;
@@ -36,24 +38,27 @@
 
         .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
 
+        /* CATEGORY: LAYOUT BLOCKS */
         .section-block { padding: 5rem 0; border-top: 1px solid #1a1a1a; }
         .section-header { text-align: center; margin-bottom: 3.5rem; }
         .section-header h2 { font-size: 1.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 0.5rem; }
         .section-header p { color: var(--text-main); font-size: 0.95rem; }
 
+        /* CATEGORY: ANIMATION EFFECTS */
         .reveal { opacity: 0; transform: translateY(15px); transition: opacity 0.8s ease, transform 0.8s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
+        /* CATEGORY: NAVIGATION INTERFACE */
         .nav-bar { position: fixed; bottom: 0; left: 0; width: 100%; background-color: rgba(20, 20, 20, 0.95); border-top: 1px solid var(--gold-muted); backdrop-filter: blur(10px); z-index: 1000; }
         .nav-container { display: flex; justify-content: space-around; align-items: center; height: 65px; }
         .nav-link { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-main); text-transform: uppercase; transition: color 0.3s ease; }
         .nav-link:hover, .nav-link.active { color: var(--gold-bright); }
 
+        /* CATEGORY: HERO COMPONENT */
         .hero { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding-top: 4rem; }
         .logo-wrapper { width: 100%; max-width: 280px; margin-bottom: 1.5rem; }
         .logo-wrapper img { width: 100%; height: auto; display: block; margin: 0 auto; }
 
-        /* ANIMATED GOLD TEXT */
         .logo-text {
             font-size: 1.1rem;
             text-transform: uppercase;
@@ -72,10 +77,8 @@
         }
 
         .origins-text { max-width: 680px; font-size: 1.05rem; color: var(--text-main); margin-bottom: 3rem; }
-        .mission-box { max-width: 750px; border-left: 2px solid var(--gold-bright); border-right: 2px solid var(--gold-bright); padding: 1.5rem 2rem; background-color: var(--bg-card); }
-        .mission-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold-bright); margin-bottom: 0.5rem; }
-        .mission-statement { font-size: 1.35rem; font-weight: 700; color: var(--text-main); line-height: 1.4; }
 
+        /* CATEGORY: GRID ARCHITECTURE */
         .roster-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
         .knight-card { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2rem; border-radius: 4px; transition: border-color 0.4s ease; }
         .knight-card:hover { border-color: var(--gold-muted); }
@@ -84,6 +87,11 @@
         .knight-role { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-top: 0.25rem; }
         .knight-bio { color: var(--text-main); font-size: 0.95rem; margin-bottom: 1.5rem; }
 
+        /* CATEGORY: DISPLAY PANELS */
+        .info-panel { max-width: 750px; margin: 0 auto; background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; border-radius: 4px; text-align: center; }
+        .info-panel-text { font-size: 1.05rem; color: var(--text-main); margin-bottom: 2rem; line-height: 1.6; }
+
+        /* CATEGORY: BUTTONS & INPUT ELEMENTS */
         .btn-gold { display: inline-block; background-color: transparent; border: 1px solid var(--gold-bright); color: var(--gold-bright); padding: 0.6rem 1.2rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s ease, color 0.3s ease; cursor: pointer; }
         .btn-gold:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
 
@@ -94,12 +102,14 @@
         .form-control:focus { outline: none; border-color: var(--gold-bright); }
         textarea.form-control { resize: vertical; min-height: 120px; }
 
+        /* CATEGORY: TOAST SYSTEMS */
         .system-toast { position: fixed; bottom: -100px; right: 20px; background-color: var(--bg-obsidian); border: 1px solid var(--gold-bright); color: var(--text-main); padding: 1rem 1.5rem; border-radius: 4px; z-index: 2000; box-shadow: 0 4px 20px rgba(0,0,0,0.8); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; transition: bottom 0.4s ease; display: flex; align-items: center; gap: 0.75rem; }
         .system-toast.show { bottom: 90px; }
         .toast-indicator { display: block; width: 8px; height: 8px; background-color: var(--gold-bright); border-radius: 50%; }
 
         footer { text-align: center; padding: 4rem 1.5rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
+        /* CATEGORY: RESPONSIVE BREAKPOINTS */
         @media (min-width: 768px) {
             body { padding-bottom: 0; }
             .nav-bar { top: 0; bottom: auto; border-top: none; border-bottom: 1px solid #1a1a1a; }
@@ -113,20 +123,26 @@
 </head>
 <body>
 
+    <!-- CATEGORY: NAVIGATION HEAD INTERFACE -->
     <nav class="nav-bar">
         <div class="nav-container">
             <a href="#home" class="nav-link active">Home</a>
             <a href="#roster" class="nav-link">Roster</a>
+            <a href="#published" class="nav-link">Published Works</a>
             <a href="#contact" class="nav-link">Contact</a>
         </div>
     </nav>
 
+    <!-- CATEGORY: NOTIFICATION COMPONENT -->
     <div id="system-toast" class="system-toast">
         <span class="toast-indicator"></span>
         <span id="toast-message"></span>
     </div>
 
+    <!-- CATEGORY: MAIN SYSTEM ENVIRONMENT -->
     <main class="container" id="home">
+        
+        <!-- CATEGORY: HERO SECTION -->
         <section class="hero">
             <div class="logo-wrapper">
                 <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
@@ -135,12 +151,9 @@
             <div class="origins-text">
                 <p>Knights used to protect the realm with steel and shields. Today, the battlefield is the mind, and the tools are digital. We build the stories that shape how people see the world. Vanguard Citizen Services is a modern collective of creative Knights. We've traded swords for keyboards to master the art of storytelling and help build a future we actually want to live in.</p>
             </div>
-            <div class="mission-box">
-                <p class="mission-title">Primary Directive</p>
-                <h1 class="mission-statement">We craft narratives that shape human connection. Our goal is simple: drive positive coexistence through great creative work.</h1>
-            </div>
         </section>
 
+        <!-- CATEGORY: ROSTER SECTION -->
         <section class="section-block reveal" id="roster">
             <div class="section-header">
                 <h2>The Roster</h2>
@@ -166,6 +179,21 @@
             </div>
         </section>
 
+        <!-- CATEGORY: PUBLISHED WORKS SECTION -->
+        <section class="section-block reveal" id="published">
+            <div class="section-header">
+                <h2>Published Works</h2>
+                <p>The marketplace for blueprints, field manuals, and tactical literature compiled by the Knights.</p>
+            </div>
+            <div class="info-panel">
+                <p class="info-panel-text">
+                    Our library contains the official tactical blueprints, structural guides, and narrative frameworks engineered directly by our studio collective. These works are packaged as open-source literature designed to master human coordination and reinforce sustainable coexistence.
+                </p>
+                <a href="published/index.html" class="btn-gold" style="padding: 1rem 2rem; font-size: 1rem;">Enter Marketplace</a>
+            </div>
+        </section>
+
+        <!-- CATEGORY: COMMUNICATIONS GUILD HALL SECTION -->
         <section class="section-block reveal" id="discord">
             <div class="section-header">
                 <h2>Join the Grand Hall</h2>
@@ -176,6 +204,7 @@
             </div>
         </section>
 
+        <!-- CATEGORY: INTEL INBOX FORM SECTION -->
         <section class="section-block reveal" id="contact">
             <div class="section-header">
                 <h2>Send a Message</h2>
@@ -205,6 +234,7 @@
         &copy; 2026 Vanguard Citizen Services
     </footer>
 
+    <!-- CATEGORY: DATA ROUTING & LOGIC ENGINES -->
     <script>
         const UIConfig = { scroll_tracking: 'on', nav_highlighting: 'on', database_routing: 'on', toast_notifications: 'on' };
         const SUPABASE_URL = "https://dvyjupytbwbrcoyouxpf.supabase.co";
