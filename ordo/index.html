@@ -4,7 +4,7 @@
     <!-- CATEGORY: METADATA & EXTERNAL RESOURCES -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vanguard Citizen Services | Checkout</title>
+    <title>Vanguard Citizen Services | The Collection</title>
     
     <style>
         /* CATEGORY: CORE STYLES & VARIABLES */
@@ -25,7 +25,7 @@
             font-family: var(--font-main);
             line-height: 1.6;
             overflow-x: hidden;
-            padding-bottom: 80px;
+            padding-bottom: 6rem;
         }
 
         a { color: inherit; text-decoration: none; }
@@ -38,46 +38,38 @@
         .nav-link { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--text-main); text-transform: uppercase; transition: color 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
         .nav-link:hover { color: var(--gold-bright); }
 
-        /* CATEGORY: CHECKOUT ARCHITECTURE WRAPPER */
-        .checkout-wrapper { padding-top: 8rem; display: grid; grid-template-columns: 1fr; gap: 3rem; }
+        /* CATEGORY: DISPLAY ARCHITECTURE HEADER */
+        .display-header { padding-top: 8rem; text-align: center; margin-bottom: 4rem; }
+        .display-header h1 { font-size: 1.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 0.5rem; }
+        .display-header p { color: #888; font-size: 0.95rem; }
 
-        /* CATEGORY: ORDER SUMMARY PANEL */
-        .summary-panel { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; border-radius: 4px; height: fit-content; }
-        .panel-title { font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 2rem; border-bottom: 1px solid #222; padding-bottom: 0.75rem; }
+        /* CATEGORY: BOOK WORK LAYOUT STACK */
+        .books-stack { display: flex; flex-direction: column; gap: 4rem; }
+        .book-showcase { display: grid; grid-template-columns: 1fr; gap: 2.5rem; background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; border-radius: 4px; }
         
-        .checkout-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid #1a1a1a; }
-        .checkout-item:last-of-type { border-bottom: none; margin-bottom: 1rem; padding-bottom: 0; }
-        .cover-art { width: 80px; height: 115px; background-color: #1a1a1a; border: 1px solid #222; object-fit: cover; border-radius: 2px; }
-        .item-details { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .item-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); }
-        .item-author { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-top: 0.25rem; }
-        .item-price { font-size: 1rem; font-weight: 600; color: var(--gold-bright); margin-top: 0.5rem; }
-
-        .total-breakdown { border-top: 1px solid #222; padding-top: 1.5rem; margin-top: 2rem; }
-        .calculation-row { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 0.5rem; color: #888; }
-        .calculation-row.final-total { color: var(--text-main); font-size: 1.2rem; font-weight: 700; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #222; }
-        .calculation-row.final-total span:last-child { color: var(--gold-bright); }
-
-        /* CATEGORY: TRANSACTION FORM INTERFACE */
-        .transaction-panel { background-color: var(--bg-card); border: 1px solid #1a1a1a; padding: 2.5rem 2rem; border-radius: 4px; }
-        .form-section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold-bright); margin-bottom: 1.25rem; margin-top: 1.5rem; }
-        .form-section-title:first-of-type { margin-top: 0; }
+        .image-viewport { display: flex; justify-content: center; align-items: start; }
+        .cover-art { width: 100%; max-width: 220px; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 2px; }
         
-        .form-layout { display: flex; flex-direction: column; }
-        .form-group { margin-bottom: 1.25rem; }
-        .form-group label { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; margin-bottom: 0.5rem; }
-        .form-control { width: 100%; background-color: var(--bg-obsidian); border: 1px solid #222222; color: var(--text-main); padding: 0.8rem; font-family: var(--font-main); font-size: 0.95rem; border-radius: 2px; }
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .content-viewport { display: flex; flex-direction: column; justify-content: space-between; }
+        .book-meta { margin-bottom: 1.5rem; }
+        .book-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.25rem; }
+        .book-author { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold-bright); margin-bottom: 1.25rem; }
+        .book-description { color: var(--text-main); font-size: 0.95rem; line-height: 1.6; }
 
-        /* CATEGORY: BUTTONS & INTERACTION ELEMENTS */
-        .btn-gold { display: block; width: 100%; text-align: center; background-color: transparent; border: 1px solid var(--gold-bright); color: var(--gold-bright); padding: 1rem; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: background-color 0.3s ease, color 0.3s ease; cursor: pointer; margin-top: 1.5rem; border-radius: 2px; }
-        .btn-gold:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
+        /* CATEGORY: BUTTON SYSTEM & LINKS */
+        .channels-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 2rem; }
+        .btn-channel { display: flex; align-items: center; justify-content: center; background-color: transparent; border: 1px solid #222; color: #888; padding: 0.8rem; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.3s ease; cursor: pointer; border-radius: 2px; text-align: center; }
+        .btn-channel.active-link { border-color: var(--gold-bright); color: var(--gold-bright); }
+        .btn-channel.active-link:hover { background-color: var(--gold-bright); color: var(--bg-obsidian); }
+        .btn-channel.secondary-link:hover { border-color: #FFFFFF; color: #FFFFFF; background-color: rgba(255,255,255,0.02); }
 
-        footer { text-align: center; padding: 4rem 1.5rem; margin-top: 4rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        footer { text-align: center; padding: 4rem 1.5rem; margin-top: 6rem; border-top: 1px solid #1a1a1a; color: #555; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
         /* CATEGORY: RESPONSIVE BREAKPOINTS */
         @media (min-width: 768px) {
-            .checkout-wrapper { grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; }
+            .book-showcase { grid-template-columns: 240px 1fr; padding: 3rem; }
+            .channels-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+            .display-header h1 { font-size: 2rem; }
         }
     </style>
 </head>
@@ -92,115 +84,57 @@
         </div>
     </nav>
 
-    <!-- CATEGORY: CHECKOUT SYSTEM ENVIRONMENT -->
+    <!-- CATEGORY: WORKS ENVIRONMENT DISPLAY -->
     <main class="container">
-        <div class="checkout-wrapper">
-            
-            <!-- CATEGORY: TRANSACTION PROCESSING COMPONENT -->
-            <div class="transaction-panel">
-                <h2 class="panel-title">Secure Checkout</h2>
-                <form class="form-layout" onsubmit="return false;">
-                    
-                    <h3 class="form-section-title">Account Information</h3>
-                    <div class="form-group">
-                        <label>Email Address</label>
-                        <input type="email" class="form-control" placeholder="name@domain.com" disabled>
-                    </div>
+        
+        <header class="display-header">
+            <h1>The Studio Collection</h1>
+            <p>Select an edition below to view digital formats, print editions, or continuous research updates.</p>
+        </header>
 
-                    <h3 class="form-section-title">Shipping Credentials</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" class="form-control" placeholder="John" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" class="form-control" placeholder="Doe" disabled>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Street Address</label>
-                        <input type="text" class="form-control" placeholder="123 Vanguard Way" disabled>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>City</label>
-                            <input type="text" class="form-control" placeholder="Metropolis" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Postal Code</label>
-                            <input type="text" class="form-control" placeholder="10001" disabled>
-                        </div>
-                    </div>
+        <div class="books-stack">
 
-                    <h3 class="form-section-title">Payment Method</h3>
-                    <div class="form-group">
-                        <label>Cardholder Name</label>
-                        <input type="text" class="form-control" placeholder="John Doe" disabled>
-                    </div>
-                    <div class="form-group">
-                        <label>Card Number</label>
-                        <input type="text" class="form-control" placeholder="&#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679; &#9679;&#9679;&#9679;&#9679;" disabled>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Expiration Date</label>
-                            <input type="text" class="form-control" placeholder="MM / YY" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label>Security Code</label>
-                            <input type="password" class="form-control" placeholder="CVV" disabled>
-                        </div>
-                    </div>
-
-                    <button class="btn-gold">Place Order</button>
-                </form>
-            </div>
-
-            <!-- CATEGORY: BASKET SUMMARY COMPONENT -->
-            <div class="summary-panel">
-                <h2 class="panel-title">Review Order</h2>
-                
-                <!-- PRODUCT UNIT: 33 TEARS -->
-                <div class="checkout-item">
+            <!-- PRODUCT SHOWCASE: 33 TEARS -->
+            <article class="book-showcase">
+                <div class="image-viewport">
                     <img src="33tearscover.png" alt="33 Tears Book Cover" class="cover-art">
-                    <div class="item-details">
-                        <h3 class="item-title">33 Tears</h3>
-                        <p class="item-author">Written by Quincy Jones</p>
-                        <p class="item-price">$24.99</p>
+                </div>
+                <div class="content-viewport">
+                    <div class="book-meta">
+                        <h2 class="book-title">33 Tears</h2>
+                        <p class="book-author">Written by Quincy Jones</p>
+                        <p class="book-description">
+                            A deeper exploration of the structural and emotional frameworks that drive human experience. This text breaks down complex narrative components into a readable, impactful format, looking directly at the friction spots in how we connect and perceive our realities.
+                        </p>
+                    </div>
+                    <div class="channels-grid">
+                        <a href="#" class="btn-channel active-link" onclick="return false;">Digital Edition (Gumroad)</a>
+                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Print Copy (Amazon)</a>
+                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Read Guides (Substack)</a>
                     </div>
                 </div>
+            </article>
 
-                <!-- PRODUCT UNIT: ORDO MINDSET -->
-                <div class="checkout-item">
+            <!-- PRODUCT SHOWCASE: THE ORDO MINDSET -->
+            <article class="book-showcase">
+                <div class="image-viewport">
                     <img src="ordomindsetcover.jpg" alt="The Ordo Mindset Book Cover" class="cover-art">
-                    <div class="item-details">
-                        <h3 class="item-title">The Ordo Mindset</h3>
-                        <p class="item-author">Written by Quincy Jones</p>
-                        <p class="item-price">$19.99</p>
+                </div>
+                <div class="content-viewport">
+                    <div class="book-meta">
+                        <h2 class="book-title">The Ordo Mindset</h2>
+                        <p class="book-author">Written by Quincy Jones</p>
+                        <p class="book-description">
+                            A straightforward layout engineered to cut through internal noise and move directly into execution. This work outlines foundational principles on how to establish structural rhythm, control daily operational momentum, and consistently reach key objectives without getting bogged down.
+                        </p>
+                    </div>
+                    <div class="channels-grid">
+                        <a href="#" class="btn-channel active-link" onclick="return false;">Digital Edition (Gumroad)</a>
+                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Print Copy (Amazon)</a>
+                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Read Guides (Substack)</a>
                     </div>
                 </div>
-
-                <!-- CATEGORY: ACCUMULATED VALUES BREAKDOWN -->
-                <div class="total-breakdown">
-                    <div class="calculation-row">
-                        <span>Subtotal</span>
-                        <span>$44.98</span>
-                    </div>
-                    <div class="calculation-row">
-                        <span>Shipping</span>
-                        <span>$0.00</span>
-                    </div>
-                    <div class="calculation-row">
-                        <span>Tax</span>
-                        <span>$0.00</span>
-                    </div>
-                    <div class="calculation-row final-total">
-                        <span>Total Due</span>
-                        <span>$44.98</span>
-                    </div>
-                </div>
-            </div>
+            </article>
 
         </div>
     </main>
