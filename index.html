@@ -343,7 +343,7 @@
 
             .hero {
                 min-height: 100vh;
-                padding-top: 0;
+                padding-top: 85px; /* Minimal padding added to clear desktop header */
             }
 
             .roster-grid {
@@ -388,19 +388,19 @@
                 <img src="vcslogo.png" alt="Vanguard Citizen Services Logo">
             </div>
             <div class="origins-text">
-                <p>In the ancient world, Knights protected the realm with steel and shield. Times have changed, but the necessity for defense remains absolute. Today, the battlefield is psychological, and the weapons are digital. Code, design, and narrative are the architecture of human perception. Vanguard Citizen Services is a modern collective of elite creators called Knights who have emerged from the shadows of the past to master the tools of the present and secure a timeline worth living in.</p>
+                <p>Knights used to protect the realm with steel and shields. Today, the battlefield is the mind, and the tools are digital. We build the stories that shape how people see the world. Vanguard Citizen Services is a modern collective of creative Knights. We've traded swords for keyboards to master the art of storytelling and help build a future we actually want to live in.</p>
             </div>
             <div class="mission-box">
                 <p class="mission-title">Primary Directive</p>
-                <h1 class="mission-statement">We construct the narratives that shape human behavior. Our objective is positive coexistence, executed through unyielding creative craftsmanship.</h1>
+                <h1 class="mission-statement">We craft narratives that shape human connection. Our goal is simple: drive positive coexistence through great creative work.</h1>
             </div>
         </section>
 
         <!-- ROSTER -->
         <section class="section-block reveal" id="roster">
             <div class="section-header">
-                <h2>The Roster of Knights</h2>
-                <p>The deployed specialists holding the perimeter across modern creative domains.</p>
+                <h2>The Roster</h2>
+                <p>The creative specialists holding the line and bringing the vision to life.</p>
             </div>
             <div class="roster-grid">
                 
@@ -409,8 +409,8 @@
                         <h3 class="knight-name">Quincy Jones</h3>
                         <p class="knight-role">Knight-01 // Chief Vision Officer</p>
                     </div>
-                    <p class="knight-bio">Forging the overarching narrative direction and creative architecture of the studio, translating systemic human principles into world-shaping realities.</p>
-                    <a href="https://qkommand.com" target="_blank" class="btn-gold">Access Command Post</a>
+                    <p class="knight-bio">Guiding the studio's creative vision and turning big-picture ideas into real, world-shaping stories.</p>
+                    <a href="https://qkommand.com" target="_blank" class="btn-gold">Visit Headquarters</a>
                 </div>
 
                 <div class="knight-card">
@@ -418,8 +418,8 @@
                         <h3 class="knight-name">Kona Agpalza</h3>
                         <p class="knight-role">Knight-02 // Chief Operations Officer</p>
                     </div>
-                    <p class="knight-bio">Commanding the back-end infrastructure, operational defense lines, and internal studio mechanics to guarantee flawless execution under pressure.</p>
-                    <button class="btn-gold" disabled>Operations Secured</button>
+                    <p class="knight-bio">Running the engines. Keeping the back-end infrastructure and studio operations smooth so the creative team can do what they do best.</p>
+                    <button class="btn-gold" disabled>Holding the Line</button>
                 </div>
 
             </div>
@@ -429,7 +429,7 @@
         <section class="section-block reveal" id="join">
             <div class="section-header">
                 <h2>Join the Order</h2>
-                <p>Our staging arena runs through Discord. Submit your credentials to step up to the Round Table.</p>
+                <p>Our guild runs through Discord. Drop your details below if you're ready to grab a seat at the Round Table.</p>
             </div>
             <div class="form-wrapper">
                 <form id="recruitment-form" class="form-layout">
@@ -449,7 +449,7 @@
                         <label for="recruit-portfolio">Portfolio Link (Optional)</label>
                         <input type="url" id="recruit-portfolio" class="form-control" placeholder="https:// (Leave blank if none)">
                     </div>
-                    <button type="submit" id="recruit-submit-btn" class="btn-gold">Submit Application</button>
+                    <button type="submit" id="recruit-submit-btn" class="btn-gold">Send Application</button>
                 </form>
             </div>
         </section>
@@ -457,8 +457,8 @@
         <!-- CONTACT -->
         <section class="section-block reveal" id="contact">
             <div class="section-header">
-                <h2>Send a Messenger</h2>
-                <p>Secure narrative consults and strategic creative studio execution pipelines.</p>
+                <h2>Send a Message</h2>
+                <p>Looking to collaborate or need some creative firepower? Drop a note in our inbox.</p>
             </div>
             <div class="form-wrapper">
                 <form id="contact-form" class="form-layout">
@@ -467,14 +467,14 @@
                         <input type="text" id="client-name" class="form-control" required placeholder="Ex. Weyland Corp">
                     </div>
                     <div class="form-group">
-                        <label for="client-email">Secure Email Address</label>
+                        <label for="client-email">Email Address</label>
                         <input type="email" id="client-email" class="form-control" required placeholder="name@domain.com">
                     </div>
                     <div class="form-group">
-                        <label for="client-objective">The Objective (Project Details)</label>
-                        <textarea id="client-objective" class="form-control" required placeholder="Describe the mission scope..."></textarea>
+                        <label for="client-objective">Project Details</label>
+                        <textarea id="client-objective" class="form-control" required placeholder="Tell us what you're building..."></textarea>
                     </div>
-                    <button type="submit" id="contact-submit-btn" class="btn-gold">Transmit Signal</button>
+                    <button type="submit" id="contact-submit-btn" class="btn-gold">Send Message</button>
                 </form>
             </div>
         </section>
@@ -533,11 +533,11 @@
                         console.error("SUPABASE ERROR:", error.message, error.details);
                         alert("Transmission failed. Check console.");
                     } else {
-                        triggerToast("Application Secured. Awaiting Review.");
+                        triggerToast("Application received. We'll be in touch.");
                         recruitForm.reset();
                     }
                     recruitBtn.disabled = false;
-                    recruitBtn.innerText = "SUBMIT APPLICATION";
+                    recruitBtn.innerText = "SEND APPLICATION";
                 });
             }
 
@@ -563,11 +563,11 @@
                         console.error("SUPABASE ERROR:", error.message, error.details);
                         alert("Transmission failed. Check console.");
                     } else {
-                        triggerToast("Signal Secured. We will contact you.");
+                        triggerToast("Message sent. We'll get back to you soon.");
                         contactForm.reset();
                     }
                     contactBtn.disabled = false;
-                    contactBtn.innerText = "TRANSMIT SIGNAL";
+                    contactBtn.innerText = "SEND MESSAGE";
                 });
             }
         }
