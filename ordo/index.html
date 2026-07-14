@@ -68,8 +68,7 @@
         /* CATEGORY: RESPONSIVE BREAKPOINTS */
         @media (min-width: 768px) {
             .book-showcase { grid-template-columns: 240px 1fr; padding: 3rem; }
-            .channels-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-            .book-1-grid { grid-template-columns: repeat(2, 1fr) 0fr; }
+            .channels-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 280px)); gap: 1.5rem; }
             .display-header h1 { font-size: 2rem; }
         }
     </style>
@@ -108,9 +107,8 @@
                             A memoir pulling directly from my experiences during the Global War on Terror and the lasting fallout that came after. It is a raw, firsthand look at processing that environment and explicitly demonstrates the Ordo Mindset in action when navigating real-world trauma and survival.
                         </p>
                     </div>
-                    <div class="channels-grid book-1-grid">
+                    <div class="channels-grid">
                         <a href="#" class="btn-channel active-link" onclick="return false;">Digital Edition (Gumroad)</a>
-                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Print Copy (Amazon)</a>
                     </div>
                 </div>
             </article>
@@ -130,7 +128,6 @@
                     </div>
                     <div class="channels-grid">
                         <a href="#" class="btn-channel active-link" onclick="return false;">Digital Edition (Gumroad)</a>
-                        <a href="#" class="btn-channel secondary-link" onclick="return false;">Print Copy (Amazon)</a>
                         <a href="#" class="btn-channel secondary-link" onclick="return false;">Substack Subscription</a>
                     </div>
                 </div>
